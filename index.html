@@ -68,6 +68,7 @@ section{padding-top:44px;display:grid;gap:16px}
 
 .hero{padding-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
 .hero h1{font-weight:800;font-size:clamp(30px,4.4vw,46px);letter-spacing:.02em}
+.hero h1 .nw{display:inline-block}
 .hero h1 em{font-style:normal;color:var(--cta)}
 .hero .lead{font-size:16px;margin-top:16px;max-width:32em;color:var(--muted)}
 .facts{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
@@ -598,7 +599,7 @@ function viewClient(){
   return `
   <div class="hero">
     <div>
-      <h1>つぶやくだけで、<br>現場を知る人が<em>AIで形に</em>。</h1>
+      <h1>つぶやくだけで、<br><span class="nw">現場を知る人が</span><span class="nw"><em>AIで形に</em>。</span></h1>
       <p class="lead">手順も値段も考えずに、困っていることをつぶやいてください。AIを使いこなす現場出身のドリフターが読み取って、チーム・進め方・金額を提案します。質問に答えるほど中身がくっきりし、だれに頼むかはAIにも相談できます。</p>
       <div class="actions" style="margin-top:20px"><button class="btn cta lg" type="button" data-jump="ask">つぶやく</button><button class="btn lg" type="button" data-jump="jobs">単発で頼む</button><button class="btn ghost lg" type="button" data-jump="ideas">ドリフターの「もし」</button></div>
       <div class="facts"><span class="fact">つぶやくだけ・選ぶまで無料</span><span class="fact">検収後に請求・月末締め</span><span class="fact">仲間内の紹介制</span></div>
