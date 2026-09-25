@@ -842,7 +842,7 @@ function viewOps(){
   const closed = billRows(x=>x.month===MONTH);
   return `
   <section>
-    <div class="sec-head"><h2>計画の流れ</h2><span class="small muted">会社の「もし」は提案を集めて会社が選ぶ。ドリフターの「もし」は仲間がそろってから申し込みを集める</span></div>
+    <div class="sec-head"><h2>計画の流れ</h2><span class="small muted">会社のつぶやきは提案を集めて会社が選ぶ。ドリフターの「もし」は仲間がそろってから申し込みを集める</span></div>
     <div class="pipe">${ALL_STAGES.map(s=>`<div><span class="chip ${CHIP[s]}">${s}</span><b class="num">${count(s)}</b></div>`).join("")}</div>
     <p class="small muted">配分（全計画で共通・仮）：運営 ${SHARE.ops}% ／ つくる ${SHARE.make}% ／ 確かめて良くする ${SHARE.check}% ／ ひろめる ${SHARE.spread}%</p>
   </section>
