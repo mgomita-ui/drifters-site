@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="ドリフターズ（お試し版）。会社はつぶやくだけ。AIで自分のプロダクトを作ってきたドリフターが提案し、形にします。">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>ドリフターズ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@500;700&display=swap">
+<style>
+/* IFBOX と同じ色：温白の地、紺＝人の確定、空色＝AIの準備、コーラル＝参加の入口、金＝価値 */
+:root{
+  --bg:#FFFDF7; --surface:#FFFFFF; --sunken:#F6F1E4; --ink:#1D2433; --muted:#4A5468; --line:#E8E2D3;
+  --accent:#0E2A5B; --accent-ink:#FFFFFF; --accent-soft:#E4EAF5; --sand:#FFF3D9; --draft:#1F86C4;
+  --cta:#E85B52; --cta-ink:#FFFFFF; --gold:#F6A623; --gold-deep:#8F5A08;
+  --ok:#2E7D52; --ok-soft:#DFF2E7; --warn:#8F5A08; --warn-soft:#FFF3D9; --info:#1F6FA8; --info-soft:#E1F1FB;
+  --shadow:0 2px 6px rgba(29,36,51,.06),0 10px 28px rgba(29,36,51,.08);
+  --head:"M PLUS Rounded 1c","Noto Sans JP",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#141821; --surface:#1C2130; --sunken:#171B26; --ink:#EEF0F5; --muted:#A4ACBD; --line:#2E3445;
+  --accent:#9DB8F2; --accent-ink:#0B1530; --accent-soft:#222D48; --sand:#3A2F17; --draft:#6CC3F5;
+  --cta:#F07A72; --cta-ink:#2A0D0B; --gold:#F6B94A; --gold-deep:#F6C46A;
+  --ok:#6BC58C; --ok-soft:#18301F; --warn:#F6C46A; --warn-soft:#3A2F17; --info:#7CC4F0; --info-soft:#17293A;
+  --shadow:0 1px 2px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#141821; --surface:#1C2130; --sunken:#171B26; --ink:#EEF0F5; --muted:#A4ACBD; --line:#2E3445;
+  --accent:#9DB8F2; --accent-ink:#0B1530; --accent-soft:#222D48; --sand:#3A2F17; --draft:#6CC3F5;
+  --cta:#F07A72; --cta-ink:#2A0D0B; --gold:#F6B94A; --gold-deep:#F6C46A;
+  --ok:#6BC58C; --ok-soft:#18301F; --warn:#F6C46A; --warn-soft:#3A2F17; --info:#7CC4F0; --info-soft:#17293A;
+  --shadow:0 1px 2px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;font-size:15px;line-height:1.75;padding-inline:16px}
+.wrap{max-width:1080px;margin:0 auto;padding-block:0 64px}
+h1,h2,h3{text-wrap:balance;line-height:1.4;margin:0;font-family:var(--head);color:var(--accent)}
+h2{font-size:24px;font-weight:800}
+h3{font-size:16px;font-weight:700}
+p{margin:0}
+.num{font-family:Inter,"Noto Sans JP",sans-serif;font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:10px 16px}
+.top-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{font-family:var(--head);font-weight:800;font-size:21px;color:var(--accent);display:flex;align-items:center;gap:10px}
+.logo .mark{width:30px;height:30px;border-radius:8px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-family:Inter,sans-serif;font-weight:700}
+.logo small{font-family:Inter,sans-serif;font-size:10px;color:var(--muted);letter-spacing:.14em;font-weight:500}
+.roles{margin-left:auto;display:flex;background:var(--sunken);border-radius:999px;padding:3px;gap:2px}
+.roles button{border:0;background:transparent;padding:6px 14px;border-radius:999px;font-size:13px;font-weight:500;color:var(--muted)}
+.roles button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.note{font-size:12px;color:var(--muted);padding-top:10px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.linkbtn{border:0;background:none;color:var(--accent);text-decoration:underline;padding:0;font-size:12px}
+
+section{padding-top:44px;display:grid;gap:16px}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;color:var(--cta);border:1px solid var(--cta);border-radius:999px;padding:1px 12px;justify-self:start}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+
+.hero{padding-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.hero h1{font-weight:800;font-size:clamp(30px,4.4vw,46px);letter-spacing:.02em}
+.hero h1 em{font-style:normal;color:var(--cta)}
+.hero .lead{font-size:16px;margin-top:16px;max-width:32em;color:var(--muted)}
+.facts{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.fact{background:var(--sand);color:var(--gold-deep);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500}
+.photo{position:relative}
+.photo img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:20px;background:var(--sunken)}
+.photo .float{position:absolute;left:-18px;bottom:-22px;width:min(300px,80%);background:var(--surface);border-radius:14px;box-shadow:var(--shadow);padding:12px 14px;display:grid;gap:6px}
+.photo .float .q{border:2px solid var(--cta);border-radius:10px;padding:6px 10px;font-weight:700;color:var(--accent);font-size:14px}
+@media (max-width:760px){.hero{grid-template-columns:1fr}.photo .float{left:12px}}
+.caption{font-size:12px;color:var(--muted)}
+
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:f}
+.flow article{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:grid;align-content:start;counter-increment:f}
+.flow img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:var(--sunken)}
+.flow .fx{padding:12px 14px 14px;display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.flow .fx b{font-family:var(--head);font-size:16px;color:var(--accent);display:flex;gap:8px;align-items:center}
+.flow .fx b::before{content:counter(f);width:24px;height:24px;border-radius:50%;background:var(--cta);color:var(--cta-ink);display:grid;place-items:center;font-family:Inter,sans-serif;font-size:13px;flex:none}
+@media (max-width:860px){.flow{grid-template-columns:1fr 1fr}}
+@media (max-width:460px){.flow{grid-template-columns:1fr}}
+
+.ideas-intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;align-items:center}
+.ideas-intro img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:16px;display:block;background:var(--sunken)}
+.ideas-intro .big{font-family:var(--head);font-weight:800;font-size:clamp(22px,3vw,30px);color:var(--accent);line-height:1.45}
+.ideas-intro .big em{font-style:normal;color:var(--cta)}
+@media (max-width:760px){.ideas-intro{grid-template-columns:1fr}}
+.icard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.icard .say{font-family:var(--head);font-weight:700;font-size:17px;color:var(--accent);line-height:1.5}
+.icard .say::after{content:"面白くないですか？";display:block;font-size:13px;color:var(--cta);font-weight:700;margin-top:2px}
+.icard .by{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.icard .av{width:28px;height:28px;border-radius:50%;background:var(--sand);color:var(--gold-deep);display:grid;place-items:center;font-weight:700;font-size:12px;flex:none}
+.counts{display:flex;gap:14px;font-size:13px;color:var(--muted)}
+.counts b{color:var(--ink)}
+
+.field{display:grid;gap:4px}
+.field label{font-size:13px;font-weight:700}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+textarea{min-height:80px;resize:vertical}
+.form{display:grid;gap:12px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:640px){.row4{grid-template-columns:1fr 1fr}}
+@media (max-width:420px){.row2{grid-template-columns:1fr}}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:999px;padding:7px 18px;font-weight:700;font-size:14px}
+.btn.cta{background:var(--cta);border-color:var(--cta);color:var(--cta-ink)}
+.btn.lg{padding:12px 26px;font-size:15px}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.plain{background:transparent;border-color:var(--line);color:var(--ink);font-weight:500}
+.btn.sm{padding:3px 10px;font-size:13px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.s-new{background:var(--warn-soft);color:var(--warn)}
+.s-wait{background:var(--info-soft);color:var(--info)}
+.s-run{background:var(--accent-soft);color:var(--accent)}
+.s-done{background:var(--ok-soft);color:var(--ok)}
+.s-bill{background:var(--sunken);color:var(--muted)}
+.tag{font-size:12px;border:1px solid var(--line);border-radius:4px;padding:0 6px;color:var(--muted)}
+
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:12px}
+.pcard.attn{border-color:var(--accent)}
+.phead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.phead h3{font-size:17px}
+.who-for{font-size:13px;color:var(--muted)}
+.meta{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:500}
+.steps{display:flex;gap:3px}
+.steps i{flex:1;height:4px;border-radius:2px;background:var(--line)}
+.steps i.on{background:var(--accent)}
+
+.seats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media (max-width:560px){.seats{grid-template-columns:1fr}}
+.seat{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:grid;gap:2px;font-size:13px}
+.seat.open{border-style:dashed}
+.seat .sn{font-weight:700;display:flex;justify-content:space-between;gap:6px}
+.seat .share{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-weight:500}
+.seat .holder{color:var(--ink)}
+.seat.open .holder{color:var(--warn)}
+
+.meter{display:grid;gap:4px;font-size:13px}
+.bar{height:8px;border-radius:4px;background:var(--sunken);overflow:hidden}
+.bar span{display:block;height:100%;background:var(--accent)}
+
+.box{background:var(--sunken);border-radius:6px;padding:12px;font-size:14px;display:grid;gap:6px}
+.box.ai{border-left:3px dashed var(--draft)}
+.ai-label{font-size:12px;color:var(--draft);font-weight:700;letter-spacing:.04em}
+.updates{display:grid;gap:6px}
+.upd{font-size:13px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px}
+.upd .by{color:var(--muted);white-space:nowrap}
+.inline{display:grid;gap:10px;border-top:1px dashed var(--line);padding-top:10px}
+.olist{display:grid;gap:4px;font-size:13px}
+.orow{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center;padding:4px 0;border-bottom:1px solid var(--line)}
+.orow:last-child{border-bottom:0}
+
+.tpl{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px;align-content:start}
+.tpl .cmp{display:flex;gap:16px;flex-wrap:wrap;font-size:13px}
+.tpl .cmp s{color:var(--muted)}
+
+.pipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.pipe div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px}
+.pipe b{display:block;font-size:22px}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.04em;background:var(--sunken)}
+td.r,th.r{text-align:right}
+tr:last-child td{border-bottom:0}
+
+.overlay{position:fixed;inset:0;background:rgba(10,15,13,.55);display:grid;place-items:center;padding:16px;z-index:20}
+.sheet{background:#fff;color:#1b1b1b;width:min(660px,100%);max-height:90vh;overflow:auto;border-radius:6px;padding:28px;font-size:14px}
+.sheet h3{font-size:22px;letter-spacing:.3em;text-align:center;margin-bottom:18px}
+.sheet table{min-width:0}
+.sheet th{background:#f1f1ee;color:#555}
+.sheet th,.sheet td{border-bottom:1px solid #ddd}
+.sheet .tot{font-size:18px;font-weight:700}
+.sheet .btn{background:#0E6B5C;border-color:#0E6B5C;color:#fff}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14px;z-index:30;max-width:calc(100% - 32px)}
+.empty{padding:14px;border:1px dashed var(--line);border-radius:8px;color:var(--muted);font-size:14px}
+.prop{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:6px;background:var(--surface)}
+.prop.rec{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.rec-tag{background:var(--sand);color:var(--gold-deep);border-radius:999px;padding:1px 10px;font-size:12px;font-weight:700}
+.res{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.res-steps{display:flex;gap:4px;flex-wrap:wrap}
+.res-steps span{font-size:12px;padding:2px 10px;border-radius:999px;background:var(--sunken);color:var(--muted)}
+.res-steps span.on{background:var(--accent);color:var(--accent-ink)}
+.read{font-size:14px;color:var(--accent);font-weight:500;border-left:3px solid var(--gold);padding-left:10px}
+.qa{display:grid;gap:6px;border-top:1px dashed var(--line);padding-top:8px}
+.qa-row{display:grid;gap:4px}
+.qa .ans{color:var(--ok)}
+.qa-form{display:flex;gap:6px;flex-wrap:wrap}
+.qa-form input{flex:1;min-width:160px}
+.aibox{border:1px solid var(--draft);border-radius:12px;padding:14px;display:grid;gap:8px;background:var(--surface)}
+.aibox > b{color:var(--draft);font-family:var(--head)}
+.ai-out{white-space:pre-wrap;font-size:14px;background:var(--sunken);border-radius:8px;padding:10px 12px}
+.def{border-left:4px solid var(--gold);padding:4px 0 4px 16px;display:grid;gap:8px;max-width:46em}
+.def-main{font-family:var(--head);font-weight:800;font-size:clamp(18px,2.4vw,22px);color:var(--accent);line-height:1.55}
+.plain-list{margin:8px 0 0;padding-left:1.3em;display:grid;gap:4px}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="top-in">
+      <div class="logo"><span class="mark">DR</span>ドリフターズ <small>AX FOR BUSINESS</small></div>
+      <div class="roles" role="group" aria-label="見る立場">
+        <button id="r-client" data-role="client">発注企業</button>
+        <button id="r-drifter" data-role="drifter">ドリフター</button>
+        <button id="r-ops" data-role="ops">運営担当</button>
+      </div>
+    </div>
+  </header>
+  <div class="note">
+    <span>お試し版です。登録も支払いもありません。社名・人名・金額・配分はすべて例です。操作した内容はこのブラウザにだけ残り、ほかの人には見えません。仕組みは IFBOX と共通です。上の「発注企業／ドリフター／運営担当」で見る立場を切り替えられます。</span>
+    <button class="linkbtn" id="reset">例の状態に戻す</button>
+  </div>
+  <main id="view"></main>
+</div>
+<div id="overlay-root"></div>
+
+<script>
+const TAX = 0.10;
+const TODAY = "2026-09-26";
+const MONTH = "2026-09";
+const SEATS = [
+  {k:"make",  name:"つくる",          desc:"業務の流れをAIで組み立てる"},
+  {k:"check", name:"確かめて良くする", desc:"導入先の現場の立場で試し、直す点を伝える"},
+  {k:"spread",name:"ひろめる",        desc:"同じ悩みの会社を探し、社内に根づかせる"},
+];
+const SHARE = {ops:20, make:45, check:20, spread:15};   // 配分（仮）：導入価格に対する%
+// 入口は2つ。会社の「もし」にはドリフターが提案し、ドリフターの「もし」はドリフター同士で仲間を集める
+const CLIENT_STAGES  = ["提案を募集中","つくって確かめる","導入・検収","型になった"];
+const DRIFTER_STAGES = ["仲間を集める","申し込みを集める","つくって確かめる","導入・検収","型になった"];
+const ALL_STAGES = ["提案を募集中","仲間を集める","申し込みを集める","つくって確かめる","導入・検収","型になった"];
+const CHIP = {"提案を募集中":"s-new","仲間を集める":"s-wait","申し込みを集める":"s-wait","つくって確かめる":"s-run","導入・検収":"s-run","型になった":"s-done"};
+const OCHIP = {"申込":"s-wait","導入待ち":"s-run","検収待ち":"s-new","検収済":"s-done","請求済":"s-bill","入金済":"s-bill"};
+
+// 単発の依頼（値段・日数・配分はすべて仮）
+const MENU = [
+  {k:"img",   g:"画像",   name:"画像",             unit:"枚", price:8000,  days:3, qty:true,  desc:"商品・案内・SNS用の画像をAIで作り、仕上げて渡します"},
+  {k:"img10", g:"画像",   name:"画像10枚セット",   unit:"式", price:60000, days:5, qty:false, desc:"同じ絵柄でそろえた10枚。カタログや連載に"},
+  {k:"page",  g:"ページ", name:"ページ1枚",        unit:"式", price:80000, days:7, qty:false, desc:"案内・求人・キャンペーンのページを作って公開まで"},
+  {k:"zukai", g:"図解",   name:"図解",             unit:"枚", price:15000, days:3, qty:true,  desc:"業務の流れや仕組みを1枚の図に"},
+  {k:"slide", g:"資料",   name:"スライド（10枚まで）", unit:"式", price:50000, days:5, qty:false, desc:"提案・説明・研修のスライド"},
+  {k:"doc",   g:"資料",   name:"資料PDF（8ページまで）", unit:"式", price:60000, days:7, qty:false, desc:"会社案内や手順書をPDFに"},
+];
+const JSHARE = {ops:20, make:65, check:15};
+const MAXREV = 2;
+const JSTEPS = ["依頼受付","作成中","確認中","納品済","検収済","請求済","入金済"];
+const JCHIP = {"依頼受付":"s-new","作成中":"s-run","確認中":"s-wait","納品済":"s-new","検収済":"s-done","請求済":"s-bill","入金済":"s-bill"};
+const M = k => MENU.find(m=>m.k===k);
+
+const DRIFTERS = [
+  {id:"d1",name:"三好 晴香",ini:"三",former:"元・住宅メーカー営業 15年",skills:["営業資料","提案書","顧客対応文面"],product:{name:"営業提案書メーカー",desc:"商談メモから提案書のたたき台を出す。住宅営業の元同僚12人が毎週使っている"}},
+  {id:"d2",name:"桑原 誠",ini:"桑",former:"元・製造業の経理課長",skills:["見積・請求","経費処理","Excel業務"],product:{name:"月末請求ボタン",desc:"受注の一覧から請求書と送り状をまとめて作る。前の職場の経理部で毎月使われている"}},
+  {id:"d3",name:"仲村 あや",ini:"仲",former:"元・介護施設の施設長",skills:["記録業務","申し送り","研修"],product:{name:"申し送りノート",desc:"話した内容を介護記録の書式に整える。2つの施設で毎日使われている"}},
+  {id:"d4",name:"大槻 亮",ini:"大",former:"元・飲食チェーンのエリア店長",skills:["採用文面","シフト","SNS"],product:{name:"求人文ジェネレーター",desc:"職種と条件から求人文を3案出す。飲食店8店で使われている"}},
+  {id:"d5",name:"堀 智之",ini:"堀",former:"元・地方銀行の法人営業",skills:["事業計画","補助金の下書き","社内説明"],product:{name:"事業計画の下書き屋",desc:"決算書から事業計画の下書きを作る。知り合いの税理士事務所で使われている"}},
+];
+const MYCLIENT = "株式会社みなと製作所";
+const MYDRIFTER = "d2";
+
+function aiDraft(ifText, who){
+  return `${who||"現場の担当者"}が毎回かけている手間を、AIを組み込んだ手順に置き換える計画です。「${ifText}」について、ドリフターからチーム（つくる／確かめて良くする／ひろめる）・進め方・金額の提案が届きます。比べて1つ選ぶまで、お金はかかりません。`;
+}
+function seed(){
+  const o = (client,st,extra={}) => Object.assign({client,st},extra);
+  const pr = (by,check,spread,price,weeks,date,text,read="",asks=[]) => ({by,check,spread,price,weeks,date,text,read,asks:asks.map(q=>typeof q==="string"?{q,a:""}:q)});
+  const base = () => ({seats:{make:[],check:[],spread:[]},hands:[],updates:[],orders:[],proposals:[],likes:[],tries:[],target:1,deadline:"",dept:"",why:""});
+  const c = x => Object.assign(base(), {kind:"client"}, x);
+  const d = x => Object.assign(base(), {kind:"drifter"}, x);
+  const j = (id,client,menu,qty,title,st,extra={}) => Object.assign({id,client,menu,qty,title,st,price:M(menu).price*qty,maker:"",checker:"",detail:"",revisions:0,via:"サイト",created:"2026-09-01",log:[]},extra);
+  return {seq:12, jseq:8, plans:[
+    /* ---- 会社の「もし」 ---- */
+    c({id:"PL-01",ifText:"見積書を作るのに毎回2時間くらいかかってて、営業が外に出られない…",who:"",origin:MYCLIENT,dept:"営業部",coord:"岡田",stage:"提案を募集中",created:"2026-09-15",rec:0,
+      proposals:[
+        pr("d2","d1","d5",250000,4,"2026-09-20","過去の見積300件から品目ごとの型を作り、品番と数量を入れるとAIが下書きを出す流れにします。三好さんが営業の立場で試し、堀さんが営業部に根づかせます。",
+          "時間がかかっているのは、計算より「過去の似た見積を探して、値引きの理由を書き直す」ところだと読みました。",
+          [{q:"見積は月に何件くらいですか？",a:"月に60件くらいです。"},{q:"過去の見積はExcelで残っていますか？",a:""}]),
+        pr("d1","d4","d1",180000,3,"2026-09-22","まず見積の多い上位20品目だけで型を作り、3週間で使い始められる形にします。残りの品目は、使いながら足していきます。",
+          "全部を一度に変えるより、よく出る品目から使い始めて、営業の手が空く実感を先に作るのが近道だと読みました。",
+          ["見積を作っているのは営業本人ですか、事務の方ですか？"])]}),
+    c({id:"PL-03",ifText:"配車の電話が朝に集中して、ほかの仕事が止まる",who:"",origin:"丸光運輸株式会社",dept:"配車課",coord:"森下",stage:"提案を募集中",created:"2026-09-24"}),
+    c({id:"PL-06",ifText:"入金の確認がいつも月末に大変。どれが払われてないのかすぐ分からない",who:"",origin:"有限会社さくら設備",dept:"経理",coord:"森下",stage:"提案を募集中",created:"2026-09-21",
+      proposals:[pr("d5","d2","d5",220000,4,"2026-09-25","銀行の入金明細と請求の一覧を毎朝突き合わせ、合わないものだけを一覧で出す手順を作ります。桑原さんが経理の目で確かめます。",
+        "困っているのは確認の作業そのものより、「払われていない相手に気づくのが遅れる」ことだと読みました。",["請求は月に何件くらいですか？","入金の明細は、ネットバンキングから取り出せますか？"])]}),
+    c({id:"PL-07",ifText:"もし、日報から月次の報告書が自動でできたら",who:"支店が複数ある会社の管理職",origin:"北斗精機株式会社",dept:"業務部",coord:"森下",stage:"つくって確かめる",
+      price:160000,weeks:4,created:"2026-08-12",seats:{make:["d5"],check:["d2"],spread:["d1"]},
+      updates:[{seat:"make",d:"d5",date:"2026-09-18",text:"日報の書式をそろえ、月次報告の下書きを出す手順を作りました。確かめをお願いします。"}],
+      orders:[o("北斗精機株式会社","導入待ち",{price:160000})]}),
+    c({id:"PL-04",ifText:"もし、会議の議事録が10分で出たら",who:"会議の多い管理部門",origin:MYCLIENT,dept:"経営企画室",coord:"岡田",stage:"型になった",
+      price:100000,weeks:2,created:"2026-07-01",tplPrice:60000,tplWeeks:1,seats:{make:["d1"],check:["d2"],spread:["d4"]},
+      orders:[o(MYCLIENT,"入金済",{price:100000,accepted:"2026-08-08",month:"2026-08"}),o("株式会社北斗食品","入金済",{price:60000,tpl:true,accepted:"2026-08-18",month:"2026-08"}),o("東和精工株式会社","入金済",{price:60000,tpl:true,accepted:"2026-08-22",month:"2026-08"})]}),
+    /* ---- ドリフターの「もし」 ---- */
+    d({id:"PL-08",by:"d1",ifText:"もし、商談の電話を切った瞬間に、日報とお礼メールができあがっていたら",who:"訪問・電話営業が多い会社",coord:"岡田",stage:"仲間を集める",
+      price:120000,target:3,weeks:3,deadline:"2026-11-30",created:"2026-09-14",seats:{make:["d1"],check:[],spread:[]},hands:[{d:"d4",seat:"check"}],
+      why:"営業時代、1日の最後の1時間は日報とお礼メールで消えていました。話した内容から両方を下書きする型なら、今の道具で作れます。",
+      likes:["株式会社北斗食品","東和精工株式会社","丸光運輸株式会社","北斗精機株式会社"],tries:["北斗精機株式会社"]}),
+    d({id:"PL-09",by:"d3",ifText:"もし、新人の質問に、ベテランの口ぐせのままAIが答えてくれたら",who:"人の入れ替わりが多い現場",coord:"森下",stage:"仲間を集める",
+      price:150000,target:3,weeks:4,deadline:"2026-12-15",created:"2026-09-20",seats:{make:[],check:["d3"],spread:[]},
+      why:"施設長のとき、同じ質問に何十回も答えていました。ベテランの答え方を集めておけば、夜勤の新人も一人で迷わずにすみます。",
+      likes:["医療法人社団あおば会","社会福祉法人ひまわり会","株式会社ケアリンク","株式会社北斗食品","有限会社さくら設備","東和精工株式会社"],tries:[]}),
+    d({id:"PL-10",by:"d2",ifText:"もし、月末の請求書づくりが、ボタン1つで終わったら",who:"請求が月100件を超える会社",coord:"岡田",stage:"仲間を集める",
+      price:180000,target:2,weeks:3,deadline:"2026-11-30",created:"2026-09-23",seats:{make:["d2"],check:[],spread:[]},
+      why:"経理課長のとき、月末3日は請求書だけで終わっていました。受注の一覧から請求書と送り状を作る流れなら、2〜3週間で組めます。",
+      likes:["有限会社さくら設備"],tries:[]}),
+    d({id:"PL-11",by:"d4",ifText:"もし、お客様の口コミから、次の新商品の案が毎月届いたら",who:"店舗や通販で口コミが集まる会社",coord:"岡田",stage:"仲間を集める",
+      price:120000,target:3,weeks:3,deadline:"2026-12-20",created:"2026-09-25",seats:{make:[],check:[],spread:["d4"]},
+      why:"店長時代、口コミは読むだけで終わっていました。毎月まとめて、商品案と試す順番まで出せれば、会議の中身が変わります。",
+      likes:["株式会社北斗食品",MYCLIENT],tries:[]}),
+    d({id:"PL-05",by:"d4",ifText:"もし、求人票が職種を入れるだけで作れたら",who:"採用を兼務している中小企業の総務",coord:"岡田",stage:"申し込みを集める",
+      price:120000,target:3,weeks:2,deadline:"2026-10-20",created:"2026-09-08",seats:{make:["d4"],check:["d3"],spread:["d1"]},
+      why:"店長時代、アルバイトの求人文を毎回ゼロから書いていました。応募が多かった文面の型があれば、職種を入れるだけで3案出せます。",
+      likes:["株式会社北斗食品","東和精工株式会社"],tries:["株式会社北斗食品"],orders:[o("株式会社北斗食品","申込",{price:120000,date:"2026-09-12"})]}),
+    d({id:"PL-02",by:"d3",ifText:"もし、介護記録を話すだけで書けたら",who:"介護施設の職員",coord:"森下",stage:"導入・検収",
+      price:150000,target:3,weeks:3,deadline:"2026-08-10",created:"2026-07-22",seats:{make:["d3"],check:["d4"],spread:["d5"]},
+      updates:[{seat:"make",d:"d3",date:"2026-08-25",text:"話した内容を記録の書式に整える手順と、確認の仕方を作りました。"},
+               {seat:"check",d:"d4",date:"2026-08-30",text:"夜勤帯で試したところ、利用者名の聞き違いが多い。名前の登録手順を足してほしい。"},
+               {seat:"make",d:"d3",date:"2026-09-03",text:"名前の登録手順を足しました。聞き違いは1日2件ほどに減りました。"}],
+      orders:[o("医療法人社団あおば会","検収済",{price:150000,accepted:"2026-09-12"}),o("社会福祉法人ひまわり会","検収済",{price:150000,accepted:"2026-09-19"}),o("株式会社ケアリンク","検収待ち",{price:150000})]}),
+  ], jobs:[
+    j("J-01",MYCLIENT,"img",5,"展示会パネル用の製品イメージ","入金済",{maker:"d1",checker:"ops",accepted:"2026-08-05",month:"2026-08",created:"2026-07-28"}),
+    j("J-02",MYCLIENT,"img",3,"採用ページ用の職場のイメージ","入金済",{maker:"d1",checker:"d4",accepted:"2026-08-27",month:"2026-08",created:"2026-08-20",via:"LINE"}),
+    j("J-03",MYCLIENT,"img",6,"新製品カタログ用のイメージ","納品済",{maker:"d1",checker:"d2",created:"2026-09-16",due:"2026-09-26",via:"LINE",
+      detail:"ステンレス部品の写真風。背景は白と工場の2種類",log:[{by:"d1",t:"納品",text:"6枚を共有フォルダに置きました。白背景3枚・工場背景3枚です。"},{by:"d2",t:"確認OK",text:"部品の形が実物とずれていないことを図面と照らしました。"}]}),
+    j("J-04","株式会社北斗食品","page",1,"秋の新商品の案内ページ","検収済",{maker:"d4",checker:"ops",accepted:"2026-09-17",created:"2026-09-05"}),
+    j("J-05","丸光運輸株式会社","zukai",2,"配車の受付から出発までの図解","作成中",{maker:"d2",checker:"d5",created:"2026-09-22",due:"2026-09-29",via:"チャットワーク",
+      detail:"新人研修で使う。電話受付→配車表→点呼→出発の流れ"}),
+    j("J-06","有限会社さくら設備","slide",1,"銀行に見せる事業説明のスライド","依頼受付",{created:"2026-09-25",due:"2026-10-06",via:"LINE",
+      detail:"LINEで届いた依頼を、これほしが依頼票に下書きしました。「来月、銀行と面談。会社の強みと今後3年の計画を10枚くらいで」"}),
+    j("J-07","東和精工株式会社","img10",1,"会社案内パンフレットの挿し絵","確認中",{maker:"d1",checker:"d2",created:"2026-09-18",due:"2026-09-27",
+      detail:"手描き風で統一。工場・人・製品を含める",log:[{by:"d1",t:"納品",text:"10枚できました。絵柄のばらつきがないか見てください。"}]}),
+  ]};
+}
+const KEY = "drifters-proto-v6";
+let S; try{ S = JSON.parse(localStorage.getItem(KEY)) }catch(e){}
+if(!S || !S.plans || !S.jobs) S = seed();
+let role = "client"; try{ role = localStorage.getItem("drifters-role") || "client" }catch(e){}
+let pendingDraft = null, pendingJob = null;
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)) }catch(e){} }
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const yen = n => "¥" + Math.round(n).toLocaleString("ja-JP");
+const D = id => DRIFTERS.find(d=>d.id===id);
+const P = id => S.plans.find(p=>p.id===id);
+const J = id => S.jobs.find(x=>x.id===id);
+const seatName = k => SEATS.find(s=>s.k===k).name;
+const chip = s => `<span class="chip ${CHIP[s]}">${s}</span>`;
+const ochip = s => `<span class="chip ${OCHIP[s]}">${s}</span>`;
+const stagesOf = p => p.kind==="client" ? CLIENT_STAGES : DRIFTER_STAGES;
+const steps = p => { const st = stagesOf(p), i = st.indexOf(p.stage); return `<div class="steps" aria-hidden="true">${st.map((_,k)=>`<i class="${k<=i?"on":""}"></i>`).join("")}</div>`; };
+const seatsFull = p => SEATS.every(s=>p.seats[s.k].length>0);
+const allAccepted = p => p.orders.length>0 && p.orders.every(o=>["検収済","請求済","入金済"].includes(o.st));
+const originName = p => p.kind==="client" ? p.origin : `${D(p.by).name}（ドリフター）`;
+function toast(msg){ const t=document.createElement("div"); t.className="toast"; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2800); }
+function done(msg){ save(); render(); if(msg) toast(msg); }
+function cut(p,seat){ return p.seats[seat].length ? SHARE[seat]/100/p.seats[seat].length : 0; }
+function addDays(d,n){ const x=new Date(d+"T00:00:00"); x.setDate(x.getDate()+n); return x.toISOString().slice(0,10); }
+
+function seatsBox(p, opts={}){
+  return `<div class="seats">${SEATS.map(s=>{
+    const hs = p.seats[s.k];
+    return `<div class="seat ${hs.length?"":"open"}">
+      <div class="sn">${s.name}<span class="share">${SHARE[s.k]}%</span></div>
+      <div class="holder">${hs.length?hs.map(id=>D(id).name).join("・"):"募集中"}</div>
+      ${opts.desc?`<div class="muted small">${s.desc}</div>`:""}
+    </div>`}).join("")}</div>`;
+}
+function meter(p){
+  const n = p.orders.length, pct = Math.min(100, Math.round(n/p.target*100));
+  return `<div class="meter"><div class="actions" style="justify-content:space-between"><span>申し込み <b class="num">${n}</b> / 目標 <span class="num">${p.target}</span>社</span><span class="muted">締切 <span class="num">${p.deadline}</span></span></div>
+    <div class="bar"><span style="width:${pct}%"></span></div></div>`;
+}
+function updatesBox(p){
+  if(!p.updates.length) return "";
+  return `<div class="updates"><b class="small">進み具合</b>${p.updates.map(u=>`<div class="upd"><span class="by num">${u.date.slice(5)} ${seatName(u.seat)}・${D(u.d).name}</span><span>${esc(u.text)}</span></div>`).join("")}</div>`;
+}
+function head(p){
+  return `<div class="phead"><div><span class="small muted num">${p.id}</span> <span class="tag">${p.kind==="client"?"会社のつぶやき":"ドリフターの「もし」"}</span><h3>${esc(p.ifText)}</h3><div class="who-for">${p.who?`${esc(p.who)}へ ・ `:""}${p.kind==="client"?"":"発案 "}${esc(originName(p))}${p.dept?`・${esc(p.dept)}`:""}</div></div>${chip(p.stage)}</div>${steps(p)}`;
+}
+// 解像度：つぶやき → 提案が届いた → 質問に答えた → 比べて選べる
+const RES = ["つぶやき","提案が届いた","質問に答えた","比べて選べる"];
+function resLevel(p){
+  const qs = p.proposals.flatMap(r=>r.asks||[]), answered = qs.filter(x=>x.a).length;
+  let l = 0; if(p.proposals.length) l = 1; if(answered) l = 2; if(p.proposals.length>=2 && answered===qs.length && answered>0) l = 3;
+  return l;
+}
+function resBar(p){
+  const l = resLevel(p);
+  return `<div class="res"><span class="small"><b>解像度</b></span><div class="res-steps">${RES.map((s,k)=>`<span class="${k<=l?"on":""}">${s}</span>`).join("")}</div></div>`;
+}
+function propCard(p, i, opts={}){
+  const r = p.proposals[i], isRec = p.rec===i;
+  return `<div class="prop ${isRec?"rec":""}">
+    <div class="phead"><b>${D(r.by).name}さんのチーム</b><span class="actions">${isRec?`<span class="rec-tag">担当 ${p.coord} のおすすめ</span>`:""}<span class="small muted num">${r.date}</span></span></div>
+    ${r.read?`<p class="read">${esc(r.read)}</p>`:""}
+    <p class="small muted">つくる人のプロダクト：<b>${esc(D(r.by).product.name)}</b>（${esc(D(r.by).product.desc)}）</p>
+    <div class="meta"><span>つくる <b>${D(r.by).name}</b></span><span>確かめて良くする <b>${D(r.check).name}</b></span><span>ひろめる <b>${D(r.spread).name}</b></span></div>
+    <div class="meta"><span>金額 <b class="num">${yen(r.price)}</b>（税別）</span><span>期間 <b>約${r.weeks}週間</b></span></div>
+    <p class="small">${esc(r.text)}</p>
+    ${(r.asks||[]).length?`<div class="qa"><b class="small">${D(r.by).name}さんからの質問</b>${r.asks.map((x,k)=>`<div class="qa-row"><span class="small">Q. ${esc(x.q)}</span>
+      ${x.a?`<span class="small ans">A. ${esc(x.a)}</span>`
+      :opts.answer?`<form class="qa-form" data-answer="${p.id}|${i}|${k}"><input type="text" id="qa-${p.id}-${i}-${k}" required placeholder="わかる範囲で一言"><button class="btn sm" type="submit">答える</button></form>`
+      :`<span class="small muted">回答待ち</span>`}</div>`).join("")}</div>`:""}
+    ${opts.pick?`<div class="actions"><button class="btn cta sm" data-act="pick" data-id="${p.id}" data-i="${i}">この提案で進める</button></div>`:""}
+    ${opts.rec?`<div class="actions"><button class="btn ${isRec?"plain":"ghost"} sm" data-act="rec" data-id="${p.id}" data-i="${i}">${isRec?"おすすめを外す":"おすすめにする"}</button></div>`:""}
+  </div>`;
+}
+
+/* ---------- だれに頼むか、AIに相談する（閲覧している人のClaudeに聞く） ---------- */
+let sampleFn;            // undefined＝確認中、null＝使えない
+const AI = {};           // 計画ごとの相談の答え
+const AI_PRESETS = ["うちに合うのはどれ？","いちばん早く使い始められるのは？","費用を抑えるなら？","選ぶ前に確かめておくことは？"];
+function aiPanel(p){
+  if(sampleFn===undefined) return "";
+  if(sampleFn===null) return `<p class="small muted">「だれに頼むか、AIに相談する」は、お試し版では使えません（正式版で使える予定です）。</p>`;
+  const st = AI[p.id] || {};
+  return `<div class="aibox">
+    <b>だれに頼むか、AIに相談する</b>
+    <p class="small muted">届いた提案と、御社が答えた内容をもとに比べます。決めるのは御社です。</p>
+    <div class="actions">${AI_PRESETS.map((q,k)=>`<button class="btn ghost sm" data-act="askai" data-id="${p.id}" data-q="${k}" ${st.busy?"disabled":""}>${q}</button>`).join("")}</div>
+    <form class="qa-form" data-askai="${p.id}"><input type="text" id="aiq-${p.id}" placeholder="自由に聞く（例：来月は繁忙期だけど進められる？）" ${st.busy?"disabled":""}><button class="btn sm" type="submit" ${st.busy?"disabled":""}>聞く</button>${st.busy?`<button class="btn plain sm" type="button" data-act="stopai" data-id="${p.id}">止める</button>`:""}</form>
+    ${st.q?`<p class="small"><b>Q.</b> ${esc(st.q)}</p>`:""}
+    <div class="ai-out" id="aio-${p.id}" ${st.text||st.busy?"":"hidden"}>${esc(st.text || (st.busy?"考えています…":""))}</div>
+    ${st.err?`<p class="small" style="color:var(--cta)">${st.err}</p>`:""}
+  </div>`;
+}
+function aiPrompt(p, question){
+  const dr = id => `${D(id).name}（${D(id).former}、得意：${D(id).skills.join("・")}、自分で作ったプロダクト：${D(id).product.name}＝${D(id).product.desc}）`;
+  const props = p.proposals.map((r,i)=>[
+    `[提案${i+1}] ${D(r.by).name}さんのチーム${p.rec===i?"（担当者のおすすめ）":""}`,
+    `チーム：つくる ${dr(r.by)}／確かめて良くする ${dr(r.check)}／ひろめる ${dr(r.spread)}`,
+    `金額：${r.price}円（税別）　期間：約${r.weeks}週間`,
+    `読み取り：${r.read||"なし"}`, `進め方：${r.text}`,
+    `質問と回答：${(r.asks||[]).map(x=>`Q ${x.q} → A ${x.a||"（未回答）"}`).join(" / ")||"なし"}`].join("\n")).join("\n\n");
+  return `あなたは「ドリフターズ」の相談役です。ドリフターズは、AIを使って自分のプロダクトを作り、その出来で事務局に選ばれた人（ドリフター）が、中小企業の業務を組み替えるサービスです。作った人とは別の人が必ず確かめます。
+発注企業が、届いた提案のどれに頼むかを考える手助けをしてください。決めるのは企業です。1つを押しつけず、提案の中身を根拠にして比べてください。書かれていないことは推測だと分かるように書き、未回答の質問があれば、答えると判断しやすくなる点として触れてください。
+日本語で、やさしい言葉で、400字前後。見出しや表は使わず、短い段落で。最後に「決める前に確かめること」を1〜2点。
+
+会社：${p.origin}（${p.dept||"部署不明"}）
+つぶやき：${p.ifText}
+
+${props}
+
+企業からの質問：${question}`;
+}
+async function askAI(p, question){
+  if(!sampleFn || !question) return;
+  AI[p.id]?.ctl?.abort();
+  const st = AI[p.id] = {q:question, text:"", busy:true, ctl:new AbortController()};
+  render();
+  try{
+    const {text} = await sampleFn(aiPrompt(p, question), {signal:st.ctl.signal, onText:({text})=>{ st.text = text; const el=document.getElementById("aio-"+p.id); if(el){ el.hidden=false; el.textContent=text; } }});
+    st.text = text;
+  }catch(e){
+    st.text = e?.text || st.text;
+    const code = e?.code;
+    if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(code)) sampleFn = null;
+    else if(code==="rate_limited") st.err = "いま混み合っています。少し時間をおいて、もう一度聞いてください。";
+    else if(code==="session_expired") st.err = "claude.ai にもう一度サインインしてください。";
+    else if(code==="refused") { st.text=""; st.err = "この聞き方には答えられませんでした。聞き方を変えてください。"; }
+    else if(code!=="cancelled") st.err = "答えが途中で止まりました。もう一度聞いてください。";
+  }finally{ st.busy = false; render(); }
+}
+
+/* ---------- 単発の依頼 ---------- */
+const jchip = s => `<span class="chip ${JCHIP[s]}">${s}</span>`;
+const jsteps = s => { const i = JSTEPS.indexOf(s); return `<div class="steps" aria-hidden="true">${JSTEPS.map((_,k)=>`<i class="${k<=i?"on":""}"></i>`).join("")}</div>`; };
+const checkerName = c => c==="ops" ? "担当者" : c ? D(c).name : "未定";
+const whoName = b => b==="client" ? "御社" : b==="ops" ? "担当者" : D(b).name;
+const jdone = j => ["検収済","請求済","入金済"].includes(j.st);
+function jobCut(j, did){ let a=0; if(j.maker===did) a+=j.price*JSHARE.make/100; if(j.checker===did) a+=j.price*JSHARE.check/100; return a; }
+function jobOps(j){ return j.price*(JSHARE.ops + (j.checker==="ops"?JSHARE.check:0))/100; }
+function jobLog(j){
+  if(!j.log.length) return "";
+  return `<div class="updates">${j.log.map(l=>`<div class="upd"><span class="by">${l.t}・${whoName(l.by)}</span><span>${esc(l.text)}</span></div>`).join("")}</div>`;
+}
+function jobHead(j){
+  const m = M(j.menu);
+  return `<div class="phead"><div><span class="small muted num">${j.id}</span> <span class="tag">${m.name}${m.qty?` ×${j.qty}${m.unit}`:""}</span>${j.via!=="サイト"?` <span class="tag">${j.via}から</span>`:""}<h3>${esc(j.title)}</h3></div>${jchip(j.st)}</div>${jsteps(j.st)}
+    <div class="meta"><span>金額 <b class="num">${yen(j.price)}</b>（税別）</span>${j.due?`<span>希望納期 <b class="num">${j.due}</b></span>`:""}<span>作る <b>${j.maker?D(j.maker).name:"未定"}</b></span><span>確かめる <b>${checkerName(j.checker)}</b></span><span>修正 <b class="num">${j.revisions}/${MAXREV}</b>回</span></div>
+    ${j.detail?`<p class="small">${esc(j.detail)}</p>`:""}`;
+}
+function clientJobs(){
+  const mine = S.jobs.filter(j=>j.client===MYCLIENT).sort((a,b)=>b.created.localeCompare(a.created));
+  const byGroup = {}; mine.forEach(j=>{ const g=M(j.menu).g; byGroup[g]=(byGroup[g]||0)+1; });
+  const repeat = Object.entries(byGroup).filter(([,n])=>n>=3);
+  const m = pendingJob && M(pendingJob);
+  return `
+  <section id="jobs">
+    <span class="eyebrow">単発で頼む</span>
+    <div class="sec-head"><h2>画像・ページ・資料を、1件から。</h2><span class="small muted">ドリフターが作り、別の人が確かめてから納品します。修正は${MAXREV}回まで。お支払いは検収後・月末締め</span></div>
+    <div class="grid2" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr))">${MENU.map(x=>`
+      <div class="tpl">
+        <h3>${x.name}</h3><p class="small muted">${x.desc}</p>
+        <div class="cmp"><span><b class="num">${yen(x.price)}</b>${x.qty?`／${x.unit}`:""}（税別）</span><span class="muted">約${x.days}日</span></div>
+        <div><button class="btn ${pendingJob===x.k?"plain":"ghost"} sm" data-act="jobpick" data-k="${x.k}">${pendingJob===x.k?"選択中":"これを頼む"}</button></div>
+      </div>`).join("")}</div>
+    ${m?`<form class="panel form" id="job-form" style="max-width:640px">
+      <h3>${m.name}を頼む</h3>
+      <div class="field"><label for="j-title">何に使うか</label><input type="text" id="j-title" required placeholder="例：展示会パネル用の製品イメージ"></div>
+      <div class="field"><label for="j-detail">イメージや条件</label><textarea id="j-detail" placeholder="雰囲気、入れたいもの、避けたいもの、参考にしたいもの"></textarea></div>
+      <div class="row2">
+        ${m.qty?`<div class="field"><label for="j-qty">数量（${m.unit}）</label><input type="number" id="j-qty" min="1" max="50" value="3" required></div>`:""}
+        <div class="field"><label for="j-due">希望納期</label><input type="date" id="j-due" required value="${addDays(TODAY,m.days+2)}"></div>
+      </div>
+      <p class="small">金額 <b class="num" id="j-price">${yen(m.price*(m.qty?3:1))}</b>（税別）<span class="muted"> ・ 実在の人物、他社のロゴや商標、特定の写真に似せたものは作れません</span></p>
+      <div class="actions"><button class="btn cta" type="submit">依頼する</button><button class="btn plain" type="button" data-act="jobcancel">やめる</button></div>
+    </form>`:""}
+    ${repeat.map(([g,n])=>`<div class="panel" style="border-color:var(--cta);display:grid;gap:8px">
+      <b style="color:var(--cta)">「${g}」の依頼が${n}回目です</b>
+      <p class="small">毎回頼むより、社内で${g}を作れる仕組みにしたほうが早くて安くなるかもしれません。つぶやけば、ドリフターから仕組みづくりの提案が届きます。</p>
+      <div><button class="btn" data-act="toplan" data-g="${g}">つぶやいて提案をもらう</button></div></div>`).join("")}
+    <div class="sec-head"><h3>${MYCLIENT}の依頼</h3><span class="small muted">${mine.length}件</span></div>
+    ${mine.map(j=>`<article class="pcard ${j.st==="納品済"?"attn":""}">${jobHead(j)}${jobLog(j)}
+      ${j.st==="納品済"?`<div class="actions"><button class="btn" data-act="jobaccept" data-id="${j.id}">検収する</button></div>
+        ${j.revisions<MAXREV?`<form class="inline" data-jobrevise="${j.id}"><div class="field"><label for="rv-${j.id}">直してほしい点（あと${MAXREV-j.revisions}回）</label><textarea id="rv-${j.id}" required></textarea></div><div><button class="btn plain" type="submit">修正を頼む</button></div></form>`
+          :`<p class="small muted">修正の回数を使い切りました。追加の修正は担当者にご相談ください（別料金）。</p>`}`
+      :j.st==="検収済"?`<p class="small muted">${j.accepted} 検収。月末の締めで請求書をお送りします</p>`
+      :["請求済","入金済"].includes(j.st)?`<div><button class="btn ghost sm" data-inv="${esc(MYCLIENT)}|${j.month}">請求書を見る</button></div>`
+      :`<p class="small muted">${j.st==="依頼受付"?"担当者が作る人と確かめる人を決めています":j.st==="作成中"?"作っています":"別の人が仕上がりを確かめています"}</p>`}
+    </article>`).join("")||`<div class="empty">まだありません。</div>`}
+  </section>`;
+}
+function jobActionsFor(j, me){
+  if(j.st==="作成中" && j.maker===me) return `<form class="inline" data-jobdeliver="${j.id}"><div class="field"><label for="jd-${j.id}">できたものを確かめる人に渡す</label><textarea id="jd-${j.id}" required placeholder="何を、どこに置いたか"></textarea></div><div><button class="btn" type="submit">確かめてもらう</button></div></form>`;
+  if(j.st==="確認中" && j.checker===me) return `<div class="actions"><button class="btn" data-act="jobok" data-id="${j.id}">仕上がりOK。企業に納品する</button></div>
+    <form class="inline" data-jobback="${j.id}"><div class="field"><label for="jb-${j.id}">作った人に直してほしい点</label><textarea id="jb-${j.id}" required></textarea></div><div><button class="btn plain" type="submit">作り直してもらう</button></div></form>`;
+  return "";
+}
+function drifterJobs(){
+  const mine = S.jobs.filter(j=>j.maker===MYDRIFTER||j.checker===MYDRIFTER).sort((a,b)=>b.created.localeCompare(a.created));
+  return `<section>
+    <div class="sec-head"><h2>単発の依頼</h2><span class="small muted">取り分：作る ${JSHARE.make}% ／ 確かめる ${JSHARE.check}%（仮）。作った依頼を自分で確かめることはありません</span></div>
+    ${mine.map(j=>{ const a=jobActionsFor(j,MYDRIFTER); return `<article class="pcard ${a?"attn":""}">${jobHead(j)}
+      <div class="meta"><span>依頼元 <b>${esc(j.client)}</b></span><span>あなたの役 <b>${j.maker===MYDRIFTER?"作る":"確かめる"}</b></span><span>取り分 <b class="num">${yen(jobCut(j,MYDRIFTER))}</b></span></div>
+      ${jobLog(j)}${a}</article>`}).join("")||`<div class="empty">いまはありません。</div>`}
+  </section>`;
+}
+function opsJobs(){
+  const order = ["依頼受付","確認中","作成中","納品済","検収済","請求済","入金済"];
+  const list = [...S.jobs].sort((a,b)=>order.indexOf(a.st)-order.indexOf(b.st)||b.created.localeCompare(a.created));
+  const counts = {}; S.jobs.forEach(j=>{ const k=j.client+"|"+M(j.menu).g; counts[k]=(counts[k]||0)+1; });
+  const repeats = Object.entries(counts).filter(([,n])=>n>=3);
+  return `<section>
+    <div class="sec-head"><h2>単発の依頼</h2><span class="small muted">配分（仮）：運営 ${JSHARE.ops}% ／ 作る ${JSHARE.make}% ／ 確かめる ${JSHARE.check}%（担当者が確かめる場合は運営へ）</span></div>
+    ${repeats.length?`<div class="panel" style="border-color:var(--cta)"><b style="color:var(--cta)">「もし」に誘うとよい会社</b><div class="olist" style="margin-top:6px">${repeats.map(([k,n])=>{const [c,g]=k.split("|"); return `<div class="orow"><span>${esc(c)}：「${g}」の依頼が${n}回</span><span class="small muted">社内で${g}を作れる仕組みを「もし」にして出すよう勧める</span></div>`}).join("")}</div></div>`:""}
+    ${list.map(j=>{
+      let a = "";
+      if(j.st==="依頼受付") a = `<form class="inline" data-jobassign="${j.id}"><b class="small">${j.via!=="サイト"?`${j.via}で届いた依頼を、これほしが依頼票に下書きしました。確かめて進めてください`:"作る人と確かめる人を決める"}</b>
+        <div class="row2"><div class="field"><label for="jm-${j.id}">作る人</label><select id="jm-${j.id}">${DRIFTERS.map(d=>`<option value="${d.id}">${d.name}</option>`).join("")}</select></div>
+        <div class="field"><label for="jc-${j.id}">確かめる人</label><select id="jc-${j.id}"><option value="ops">担当者（運営）</option>${DRIFTERS.map(d=>`<option value="${d.id}">${d.name}</option>`).join("")}</select></div></div>
+        <div><button class="btn" type="submit">依頼を受けて作り始める</button></div></form>`;
+      else if(j.st==="確認中" && j.checker==="ops") a = jobActionsFor(j,"ops");
+      else if(j.st==="請求済") a = `<div><button class="btn ghost sm" data-act="jobpaid" data-id="${j.id}">入金を確認した</button></div>`;
+      else a = `<p class="small muted">${{"作成中":"作っています","確認中":`${checkerName(j.checker)}さんが確かめています`,"納品済":"企業の検収待ち","検収済":"月末の締めで請求","入金済":"完了"}[j.st]}</p>`;
+      return `<article class="pcard ${j.st==="依頼受付"||(j.st==="確認中"&&j.checker==="ops")?"attn":""}">${jobHead(j)}<div class="meta"><span>依頼元 <b>${esc(j.client)}</b></span><span class="num">${j.created} 受付</span></div>${jobLog(j)}${a}</article>`;
+    }).join("")}
+  </section>`;
+}
+
+/* ---------- 発注企業 ---------- */
+function driftIdeaCard(p){
+  const liked = p.likes.includes(MYCLIENT), tried = p.tries.includes(MYCLIENT);
+  let act;
+  if(p.stage==="仲間を集める") act = `<div class="actions">
+      <button class="btn ${liked?"plain":"ghost"} sm" data-act="like" data-id="${p.id}">${liked?"面白いと伝えました":"面白い"}</button>
+      <button class="btn ${tried?"plain":"cta"} sm" data-act="try" data-id="${p.id}">${tried?"試したいと伝えました":"うちで試したい"}</button></div>
+      <p class="small muted">役割がそろうと、申し込みの受付が始まります。「うちで試したい」は申し込みではありません。</p>`;
+  else act = `${meter(p)}<div class="actions"><span>導入価格 <b class="num">${yen(p.price)}</b><span class="small muted">（税別・1社）約${p.weeks}週間</span></span>
+      <button class="btn cta sm" data-act="join" data-id="${p.id}">うちも導入する</button></div>`;
+  return `<article class="icard">
+    <div class="by"><span class="av">${D(p.by).ini}</span><span><b style="color:var(--ink)">${D(p.by).name}</b>（${D(p.by).former}）</span>${chip(p.stage)}</div>
+    <div class="say">${esc(p.ifText)}</div>
+    <div class="small muted">${esc(p.who)}へ ・ 導入価格の目安 <span class="num">${yen(p.price)}</span></div>
+    ${p.why?`<p class="small">${esc(p.why)}</p>`:""}
+    ${seatsBox(p)}
+    <div class="counts"><span>面白い <b class="num">${p.likes.length}</b></span><span>うちで試したい <b class="num">${p.tries.length}</b>社</span></div>
+    ${act}</article>`;
+}
+function viewClient(){
+  const mine = S.plans.filter(p=>(p.kind==="client"&&p.origin===MYCLIENT) || p.orders.some(o=>o.client===MYCLIENT)).sort((a,b)=>b.created.localeCompare(a.created));
+  const ideas = S.plans.filter(p=>p.kind==="drifter" && ["仲間を集める","申し込みを集める"].includes(p.stage) && !mine.includes(p)).sort((a,b)=>b.created.localeCompare(a.created));
+  const tpls = S.plans.filter(p=>p.stage==="型になった");
+  return `
+  <div class="hero">
+    <div>
+      <h1>つぶやくだけで、<br>現場を知る人が<em>AIで形に</em>。</h1>
+      <p class="lead">手順も値段も考えずに、困っていることをつぶやいてください。AIを使いこなす現場出身のドリフターが読み取って、チーム・進め方・金額を提案します。質問に答えるほど中身がくっきりし、だれに頼むかはAIにも相談できます。</p>
+      <div class="actions" style="margin-top:20px"><button class="btn cta lg" type="button" data-jump="ask">つぶやく</button><button class="btn lg" type="button" data-jump="jobs">単発で頼む</button><button class="btn ghost lg" type="button" data-jump="ideas">ドリフターの「もし」</button></div>
+      <div class="facts"><span class="fact">つぶやくだけ・選ぶまで無料</span><span class="fact">検収後に請求・月末締め</span><span class="fact">仲間内の紹介制</span></div>
+    </div>
+    <div class="photo">
+      <img src="img/hero.jpg" alt="工場の事務所で、ノートパソコンの画面を工場長に見せて話す女性">
+      <div class="float"><span class="small muted">つぶやき</span><div class="q">見積に毎回2時間かかって、営業が外に出られない…</div><span class="small" style="color:var(--draft)">ドリフター2人から提案が届きました</span></div>
+    </div>
+  </div>
+  <p class="caption" style="margin-top:30px">写真はイメージです（AIで生成）。</p>
+
+  <section>
+    <span class="eyebrow">進み方</span>
+    <h2>入口は2つ。そのあとは同じ道。</h2>
+    <div class="flow">
+      <article><img src="img/step1.jpg" alt="3人がカフェのテーブルで計画を話している"><div class="fx"><b>ドリフターが「もし」で仲間を集める</b>「こんなことができたら面白くないですか？」を出し、ドリフター同士で3つの役割をそろえる。同じ悩みの会社が申し込む。</div></article>
+      <article><img src="img/step2.jpg" alt="会議室で、経営者2人にタブレットの画面を見せている"><div class="fx"><b>会社はつぶやく。ドリフターが提案する</b>つぶやきを読み取って、チーム・進め方・金額を提案。質問に答えるほど中身がくっきりし、だれに頼むかはAIに相談できる。</div></article>
+      <article><img src="img/step3.jpg" alt="介護施設で、スマートフォンに話しかけて試す職員と、横で見守る同僚"><div class="fx"><b>つくって確かめる</b>作った人とは別の人が、現場の立場で試して直す。</div></article>
+      <article><img src="img/step4.jpg" alt="仕事が早く終わり、先輩に笑顔で報告する社員"><div class="fx"><b>導入して、型になる</b>検収後に月末締めで請求。次の会社は型から安く速く入れる。</div></article>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">ドリフターとは</span>
+    <h2>フリーランスでも、エンジニアでもない。<br>現場を渡り歩いてきた、AIの使い手。</h2>
+    <div class="def">
+      <p class="def-main">ドリフターとは、AIを使って自分のプロダクトを作り、その出来で事務局に選ばれた人のことです。</p>
+      <p class="small muted">もとはエンジニアでもクリエイターでもなく、営業・経理・介護・飲食などの仕事をしてきた人たちです。名前の由来は、職種や会社を渡り歩いてきた（drift）こと。現場の手間を知っていて、それをAIで自分の手で形にできる。その証拠が、いま実際に使われているプロダクトです。</p>
+    </div>
+
+    <h3>選び方：事務局が、プロダクトを見て選びます</h3>
+    <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+      <div class="panel"><h3>AIを使って、独自のプロダクトを作っている</h3><p class="small muted" style="margin-top:6px">人から預かった仕事ではなく、自分で考えて作ったもの。業務の道具、仕組み、サービスなど形は問いません。</p></div>
+      <div class="panel"><h3>そのプロダクトの出来が、一定以上高い</h3><p class="small muted" style="margin-top:6px">事務局が実物を触って確かめます。見るのは3点です。</p>
+        <ul class="small muted plain-list"><li>作った本人以外の人が、実際に使っている</li><li>本人が横にいなくても、使い方が分かって動く</li><li>使う前と後で、手間や時間がはっきり変わっている</li></ul></div>
+    </div>
+    <p class="small muted">資格や職歴の年数は問いません。応募か紹介を受けて事務局が見せてもらい、合えば声をかけます。</p>
+
+    <h3>ドリフターが守る3つの約束</h3>
+    <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+      <div class="panel"><h3>作ったものは、別の人が確かめる</h3><p class="small muted" style="margin-top:6px">計画でも単発の依頼でも、作った本人が自分で合格を出すことはありません。確かめるのは、ほかのドリフターか担当者です。</p></div>
+      <div class="panel"><h3>分からないことは、決めつけずに聞く</h3><p class="small muted" style="margin-top:6px">つぶやきに書かれていないことは、提案の中で質問にして会社に聞きます。思い込みで作り始めません。</p></div>
+      <div class="panel"><h3>ドリフターズの外で、直接は受けない</h3><p class="small muted" style="margin-top:6px">知り合った会社から直接頼まれても、ドリフターズを通します。担当者の伴走と、確かめの仕組みを守るためです。</p></div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel"><h3>ドリフターではない人</h3>
+        <ul class="small muted plain-list">
+          <li>システムを作ることを請け負うエンジニア</li>
+          <li>決まったツールを売って回る代理店</li>
+          <li>作って、自分で合格を出して納める外注先</li>
+        </ul></div>
+      <div class="panel"><h3>ドリフターになるまで</h3>
+        <ol class="small muted plain-list">
+          <li>応募するか、ドリフター・運営から紹介を受ける</li>
+          <li>自分のプロダクトを事務局に見せる（実物を触ってもらう）</li>
+          <li>事務局が3つの点で確かめて、選ぶ</li>
+          <li>プロフィールにプロダクトを載せて、提案や「もし」を出せるようになる</li>
+        </ol></div>
+    </div>
+    <p class="caption">事務局が見る3つの点は案です。</p>
+  </section>
+
+  <section id="ask-sec">
+    <form class="panel form" id="ask" style="max-width:640px">
+      <h3>つぶやく</h3>
+      <p class="small muted">手順も値段も考えなくて大丈夫です。困っていること、こうなったらいいなと思うことを、そのまま書いてください。ドリフターが読み取って、チーム・進め方・金額を提案します。</p>
+      <div class="field"><label for="f-if">いま困っていること</label>
+        <textarea id="f-if" required placeholder="見積書を作るのに毎回2時間くらいかかってて、営業が外に出られない…">${esc(pendingDraft?.ifText||"")}</textarea></div>
+      <div class="field"><label for="f-dept">部署（任意）</label><input type="text" id="f-dept" placeholder="営業部" value="${esc(pendingDraft?.dept||"")}"></div>
+      <div class="actions"><button class="btn cta" type="submit">つぶやく</button><span class="small muted">選ぶまで無料です</span></div>
+    </form>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>${MYCLIENT}の計画と導入</h2><span class="small muted">${mine.length}件</span></div>
+    ${mine.length?mine.map(clientCard).join(""):`<div class="empty">まだありません。</div>`}
+  </section>
+
+  <section id="ideas">
+    <div class="ideas-intro">
+      <img src="img/idea.jpg" alt="窓辺の席で、ノートにアイデアを書きとめる男性">
+      <div style="display:grid;gap:12px">
+        <span class="eyebrow">ドリフターの「もし」</span>
+        <p class="big">「もし、こんなことができたら、<br><em>面白くないですか？</em>」</p>
+        <p class="muted">現場を知るドリフターが自分から出した「もし」です。ドリフター同士で役割がそろったら、申し込みの受付が始まります。同じ悩みの会社がまとまって申し込むので、1社あたりの金額が抑えられます。</p>
+      </div>
+    </div>
+    <div class="grid2">${ideas.map(driftIdeaCard).join("")||`<div class="empty">いまはありません。</div>`}</div>
+  </section>
+
+  ${clientJobs()}
+
+  <section>
+    <div class="sec-head"><h2>型から導入する</h2><span class="small muted">ほかの会社で形になった計画です。作り直しがないので安く速く入ります</span></div>
+    <div class="grid2">${tpls.map(p=>`<div class="tpl">
+      <h3>${esc(p.ifText)}</h3><div class="who-for">${esc(p.who)}へ ・ これまで <span class="num">${p.orders.length}</span>社</div>
+      <div class="cmp"><span>型から導入 <b class="num">${yen(p.tplPrice)}</b>（税別）・約${p.tplWeeks}週間</span><span class="muted">最初の導入 <s class="num">${yen(p.price)}</s>・約${p.weeks}週間</span></div>
+      <div class="actions">${p.orders.some(o=>o.client===MYCLIENT)?`<span class="small muted">導入済みです</span>`:`<button class="btn ghost" data-act="tpl" data-id="${p.id}">この型で導入する</button>`}</div>
+    </div>`).join("")}</div>
+  </section>`;
+}
+function clientCard(p){
+  const my = p.orders.find(o=>o.client===MYCLIENT);
+  let body = "";
+  if(p.stage==="提案を募集中"){
+    body = `${resBar(p)}
+      ${p.proposals.length?`<b class="small">届いた提案 ${p.proposals.length}件。質問に答えるほど、提案がくっきりします</b><div class="grid2">${p.proposals.map((_,i)=>propCard(p,i,{pick:true,answer:true})).join("")}</div>${aiPanel(p)}`
+      :`<p class="small muted">ドリフターからの提案を待っています。担当の${p.coord}が、合いそうなドリフターに声をかけています。</p>`}`;
+  } else if(p.stage==="申し込みを集める") body = meter(p);
+  else body = seatsBox(p) + updatesBox(p);
+  let mine = "";
+  if(my){
+    mine = `<div class="orow"><span>御社の導入 ${ochip(my.st)} <span class="num">${yen(my.price)}</span>${my.tpl?`<span class="tag">型から</span>`:""}</span>
+      ${my.st==="検収待ち"?`<button class="btn sm" data-act="accept" data-id="${p.id}">検収する</button>`
+      :my.st==="検収済"?`<span class="small muted">${my.accepted} 検収。月末の締めで請求書をお送りします</span>`
+      :["請求済","入金済"].includes(my.st)?`<button class="btn ghost sm" data-inv="${esc(MYCLIENT)}|${my.month}">請求書を見る</button>`
+      :my.st==="導入待ち"?`<span class="small muted">導入の準備中</span>`:`<span class="small muted">成立待ち</span>`}</div>`;
+  }
+  return `<article class="pcard ${(my&&my.st==="検収待ち")||(p.stage==="提案を募集中"&&p.proposals.length)?"attn":""}">${head(p)}
+    <div class="meta"><span>担当 <b>${p.coord}</b></span>${p.price?`<span>金額 <b class="num">${yen(p.price)}</b></span>`:""}</div>
+    ${body}${mine}</article>`;
+}
+
+/* ---------- ドリフター ---------- */
+function viewDrifter(){
+  const me = D(MYDRIFTER);
+  const seatOf = p => SEATS.filter(s=>p.seats[s.k].includes(MYDRIFTER)).map(s=>s.k);
+  const asks = S.plans.filter(p=>p.stage==="提案を募集中");
+  const recruiting = S.plans.filter(p=>p.stage==="仲間を集める");
+  const mine = S.plans.filter(p=>seatOf(p).length && p.stage!=="仲間を集める");
+  const payRows = [];
+  S.plans.forEach(p=>seatOf(p).forEach(k=>p.orders.filter(o=>["検収済","請求済","入金済"].includes(o.st)).forEach(o=>payRows.push({p,k,o,amt:o.price*cut(p,k)}))));
+  S.jobs.filter(j=>jdone(j) && jobCut(j,MYDRIFTER)>0).forEach(j=>payRows.push({job:j,amt:jobCut(j,MYDRIFTER)}));
+  const total = payRows.reduce((a,r)=>a+r.amt,0);
+  return `
+  <section>
+    <div class="panel" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <div style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--sand);color:var(--gold-deep);font-weight:700;font-size:20px">${me.ini}</div>
+      <div style="display:grid;gap:4px"><h2>${me.name}</h2><div class="small muted">${me.former}</div><div class="small">自分のプロダクト：<b>${esc(me.product.name)}</b>（${esc(me.product.desc)}）</div>
+        <div class="actions">${me.skills.map(s=>`<span class="tag">${s}</span>`).join("")}</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>会社のつぶやきに提案する</h2><span class="small muted">まず読み取りを書き、あなたが「つくる」になって、確かめて良くする人・ひろめる人を選んでチームで出します。分からないことは質問にして会社に聞けます。選ぶのは会社です</span></div>
+    ${asks.map(p=>{
+      const myIdx = p.proposals.findIndex(r=>r.by===MYDRIFTER);
+      const inTeam = p.proposals.filter(r=>r.by!==MYDRIFTER && (r.check===MYDRIFTER||r.spread===MYDRIFTER));
+      return `<article class="pcard ${myIdx<0?"attn":""}">${head(p)}
+        <div class="meta"><span>担当 <b>${p.coord}</b></span><span>部署 <b>${esc(p.dept)||"—"}</b></span><span>届いている提案 <b class="num">${p.proposals.length}</b>件</span></div>
+        ${inTeam.length?`<p class="small">${inTeam.map(r=>`${D(r.by).name}さんの提案に、あなたが「${r.check===MYDRIFTER?"確かめて良くする":"ひろめる"}」で入っています`).join("／")}</p>`:""}
+        ${myIdx>=0?`<b class="small">あなたの提案</b>${propCard(p,myIdx)}`
+        :`<form class="inline" data-propose="${p.id}">
+          <div class="field"><label for="pr-${p.id}">つぶやきを、こう読み取りました</label><textarea id="pr-${p.id}" required placeholder="本当に困っているのはどこか、あなたの言葉で"></textarea></div>
+          <div class="field"><label for="pp-${p.id}">進め方</label><textarea id="pp-${p.id}" required placeholder="何を作り、どう試し、どう根づかせるか"></textarea></div>
+          <div class="row4">
+            <div class="field"><label for="pc-${p.id}">確かめて良くする</label><select id="pc-${p.id}">${DRIFTERS.filter(d=>d.id!==MYDRIFTER).map(d=>`<option value="${d.id}">${d.name}</option>`).join("")}</select></div>
+            <div class="field"><label for="ps-${p.id}">ひろめる</label><select id="ps-${p.id}">${DRIFTERS.map(d=>`<option value="${d.id}">${d.id===MYDRIFTER?"自分":d.name}</option>`).join("")}</select></div>
+            <div class="field"><label for="pa-${p.id}">金額（税別）</label><input type="number" id="pa-${p.id}" min="10000" step="10000" required value="200000"></div>
+            <div class="field"><label for="pw-${p.id}">期間（週）</label><input type="number" id="pw-${p.id}" min="1" required value="3"></div>
+          </div>
+          <div class="field"><label for="pq-${p.id}">会社に確かめたいこと（1行に1つ・任意）</label><textarea id="pq-${p.id}" placeholder="月に何件くらいですか？&#10;いまはどの道具でやっていますか？"></textarea></div>
+          <div class="actions"><button class="btn cta" type="submit">提案を出す</button><span class="small muted">本番では、チームに入れる人の了承をとってから出します</span></div></form>`}
+      </article>`}).join("")||`<div class="empty">いま提案を募集しているつぶやきはありません。</div>`}
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>自分の「もし」を出す</h2><span class="small muted">「こんなことができたら面白くないですか？」を出し、ドリフター同士で仲間を集めます。会社の画面にも並びます</span></div>
+    <form class="panel form" id="idea-form">
+      <div class="field"><label for="i-if">もし、こんなことができたら</label><input type="text" id="i-if" required placeholder="もし、月末の請求書づくりが、ボタン1つで終わったら"></div>
+      <div class="row2">
+        <div class="field"><label for="i-for">どんな会社に</label><input type="text" id="i-for" required placeholder="請求が月100件を超える会社"></div>
+        <div class="field"><label for="i-seat">自分が入る役割</label><select id="i-seat">${SEATS.map(s=>`<option value="${s.k}">${s.name}</option>`).join("")}</select></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="i-price">導入価格の目安（税別・1社）</label><input type="number" id="i-price" min="10000" step="10000" required value="150000"></div>
+        <div class="field"><label for="i-target">目標社数</label><input type="number" id="i-target" min="1" required value="3"></div>
+      </div>
+      <div class="field"><label for="i-why">なぜ面白いと思うか（自分の現場の経験から）</label><textarea id="i-why" placeholder="経理課長のとき、月末3日は請求書だけで終わっていました…"></textarea></div>
+      <div class="actions"><button class="btn cta" type="submit">「もし」を出す</button></div>
+    </form>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>仲間を募集中の「もし」</h2><span class="small muted">手を挙げると、担当者が受けるかどうかを決めます。つくる人は同じ計画の「確かめて良くする」にはなれません</span></div>
+    ${recruiting.map(p=>{
+      const mySeats = seatOf(p), myHands = p.hands.filter(h=>h.d===MYDRIFTER).map(h=>h.seat);
+      return `<article class="pcard">${head(p)}
+        <div class="meta"><span>導入価格の目安 <b class="num">${yen(p.price)}</b> × 目標 <b class="num">${p.target}</b>社</span><span>期間 <b>約${p.weeks}週間</b></span><span>面白い <b class="num">${p.likes.length}</b> ・ 試したい <b class="num">${p.tries.length}</b>社</span></div>
+        ${seatsBox(p,{desc:true})}
+        <div class="actions">${SEATS.map(s=>{
+          const blocked = (s.k==="check"&&(mySeats.includes("make")||myHands.includes("make"))) || (s.k==="make"&&(mySeats.includes("check")||myHands.includes("check")));
+          if(mySeats.includes(s.k)) return `<span class="tag">${s.name}に参加中</span>`;
+          if(myHands.includes(s.k)) return `<span class="tag">${s.name}に手を挙げ済み</span>`;
+          if(p.seats[s.k].length) return "";
+          const est = p.price*SHARE[s.k]/100;
+          return `<button class="btn ${blocked?"plain":"ghost"} sm" data-act="hand" data-id="${p.id}" data-seat="${s.k}" ${blocked?"disabled":""}>${s.name}に手を挙げる <span class="num">（1社あたり約${yen(est)}）</span></button>`;
+        }).join("")}</div>
+        ${p.hands.filter(h=>h.d!==MYDRIFTER).length?`<p class="small muted">ほかに手を挙げている人：${p.hands.filter(h=>h.d!==MYDRIFTER).map(h=>`${D(h.d).name}（${seatName(h.seat)}）`).join("、")}</p>`:""}
+      </article>`}).join("")||`<div class="empty">いま募集中の「もし」はありません。</div>`}
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>参加している計画</h2></div>
+    ${mine.map(p=>{
+      const ks = seatOf(p);
+      const canPost = p.stage==="つくって確かめる";
+      return `<article class="pcard ${canPost?"attn":""}">${head(p)}
+        <div class="meta"><span>あなたの役割 <b>${ks.map(seatName).join("・")}</b></span><span>1社あたりの取り分 <b class="num">${yen(ks.reduce((a,k)=>a+p.price*cut(p,k),0))}</b></span>${p.stage==="申し込みを集める"?`<span>申し込み <b class="num">${p.orders.length}/${p.target}</b>社</span>`:""}</div>
+        ${updatesBox(p)}
+        ${canPost?`<form class="inline" data-post="${p.id}">
+          <div class="field"><label for="up-${p.id}">${ks.includes("check")?"確かめた結果を伝える":"進み具合を伝える"}</label><textarea id="up-${p.id}" required placeholder="${ks.includes("check")?"現場の立場で試して、困ったことや直してほしい点":"何ができて、何を確かめてほしいか"}"></textarea></div>
+          <div><button class="btn" type="submit">投稿する</button></div></form>`:""}
+      </article>`}).join("")||`<div class="empty">まだありません。</div>`}
+  </section>
+
+  ${drifterJobs()}
+
+  <section>
+    <div class="sec-head"><h2>取り分</h2><span class="small muted">計画は 金額 × 役割の配分 ÷ その役割の人数、単発は 金額 × 作る・確かめるの配分。企業の入金を確認した翌月10日に振り込み（仮）</span></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>計画・依頼</th><th>会社</th><th>役割</th><th>状態</th><th class="r">金額</th><th class="r">あなたの取り分（税別）</th></tr></thead>
+      <tbody>${payRows.length?payRows.map(r=>r.job?`<tr><td>${esc(r.job.title)} <span class="tag">単発</span></td><td>${esc(r.job.client)}</td><td>${r.job.maker===MYDRIFTER?`作る（${JSHARE.make}%）`:`確かめる（${JSHARE.check}%）`}</td><td>${jchip(r.job.st)}</td><td class="r num">${yen(r.job.price)}</td><td class="r num">${yen(r.amt)}</td></tr>`
+        :`<tr><td>${esc(r.p.ifText)}</td><td>${esc(r.o.client)}</td><td>${seatName(r.k)}（${SHARE[r.k]}%${r.p.seats[r.k].length>1?`÷${r.p.seats[r.k].length}`:""}）</td><td>${ochip(r.o.st)}</td><td class="r num">${yen(r.o.price)}</td><td class="r num">${yen(r.amt)}</td></tr>`).join("")
+        + `<tr><td colspan="5"><b>合計</b></td><td class="r num"><b>${yen(total)}</b></td></tr>`
+        :`<tr><td colspan="6" class="muted">まだありません</td></tr>`}</tbody>
+    </table></div>
+  </section>`;
+}
+
+/* ---------- 運営担当 ---------- */
+function viewOps(){
+  const count = s => S.plans.filter(p=>p.stage===s).length;
+  const asks = S.plans.filter(p=>p.stage==="提案を募集中");
+  const recruiting = S.plans.filter(p=>p.stage==="仲間を集める");
+  const order = ["つくって確かめる","申し込みを集める","導入・検収","型になった"];
+  const running = S.plans.filter(p=>order.includes(p.stage)).sort((a,b)=>order.indexOf(a.stage)-order.indexOf(b.stage));
+  const toClose = billRows(x=>x.st==="検収済" && (x.accepted||"").startsWith(MONTH));
+  const closed = billRows(x=>x.month===MONTH);
+  return `
+  <section>
+    <div class="sec-head"><h2>計画の流れ</h2><span class="small muted">会社の「もし」は提案を集めて会社が選ぶ。ドリフターの「もし」は仲間がそろってから申し込みを集める</span></div>
+    <div class="pipe">${ALL_STAGES.map(s=>`<div><span class="chip ${CHIP[s]}">${s}</span><b class="num">${count(s)}</b></div>`).join("")}</div>
+    <p class="small muted">配分（全計画で共通・仮）：運営 ${SHARE.ops}% ／ つくる ${SHARE.make}% ／ 確かめて良くする ${SHARE.check}% ／ ひろめる ${SHARE.spread}%</p>
+  </section>
+  <section>
+    <div class="sec-head"><h2>会社のつぶやき（提案を募集中）</h2><span class="small muted">選ぶのは会社です。担当者は、比べやすいようにおすすめを1つ付けられます</span></div>
+    ${asks.map(p=>`<article class="pcard ${p.proposals.length?"":"attn"}">${head(p)}
+      <div class="meta"><span>担当 <b>${p.coord}</b></span><span>部署 <b>${esc(p.dept)||"—"}</b></span><span class="num">${p.created} 受付</span></div>
+      ${p.proposals.length?`<div class="grid2">${p.proposals.map((_,i)=>propCard(p,i,{rec:true})).join("")}</div>`
+      :`<div class="actions"><span class="small muted">まだ提案がありません。</span><button class="btn ghost sm" data-act="nudge" data-id="${p.id}">合いそうなドリフターに声をかける</button></div>`}
+    </article>`).join("")||`<div class="empty">ありません。</div>`}
+  </section>
+  <section>
+    <div class="sec-head"><h2>ドリフターの「もし」（仲間を集める）</h2><span class="small muted">役割がそろい、試したい会社が1社以上になったら、申し込みの受付を始めます</span></div>
+    ${recruiting.map(opsCard).join("")||`<div class="empty">ありません。</div>`}
+  </section>
+  <section>
+    <div class="sec-head"><h2>進んでいる計画</h2></div>
+    ${running.map(opsCard).join("")}
+  </section>
+  ${opsJobs()}
+  <section>
+    <div class="sec-head"><h2>月次の締め（2026年9月分）</h2><span class="small muted">9月中に検収された計画の導入と単発の依頼を、会社ごとに1枚の請求書にまとめます</span></div>
+    <p class="small muted">本番では、見積書・請求書・配分明細は Claude か Codex が下書きし、これほしが各社の主の場（LINE・チャットワーク・メールなど）へ送る準備をします。送るのは担当者が確かめてからです。</p>
+    <div class="panel" style="display:grid;gap:12px">
+      ${toClose.length?`<div class="tablewrap" style="border:0"><table>
+        <thead><tr><th>検収日</th><th>会社</th><th>内容</th><th class="r">金額</th><th class="r">ドリフターへ</th><th class="r">運営</th></tr></thead>
+        <tbody>${toClose.map(r=>`<tr><td class="num">${r.accepted}</td><td>${esc(r.client)}</td><td>${esc(r.label)} <span class="tag">${r.kind}</span></td><td class="r num">${yen(r.price)}</td><td class="r num">${yen(r.price-r.ops)}</td><td class="r num">${yen(r.ops)}</td></tr>`).join("")}</tbody></table></div>
+        <div class="actions"><button class="btn" data-act="close">9月分を締めて請求書を作る</button><span class="small muted">企業の支払期日は 2026年10月31日</span></div>`
+      :`<div class="empty">締めるものはありません。${closed.length?"9月分は締め済みです。":""}</div>`}
+      ${closed.length?`<div style="display:grid;gap:8px"><b class="small">作成済みの請求書</b><div class="actions">
+        ${[...new Set(closed.map(x=>x.client))].map(c=>`<button class="btn plain sm" data-inv="${esc(c)}|${MONTH}">${esc(c)}</button>`).join("")}</div>
+        <b class="small">ドリフターへの配分明細（入金確認後 11月10日払い・仮）</b>
+        <div class="actions">${DRIFTERS.filter(d=>payRowsFor(d.id).length).map(d=>`<button class="btn plain sm" data-pay="${d.id}">${d.name}</button>`).join("")}</div></div>`:""}
+    </div>
+  </section>`;
+}
+function opsCard(p){
+  let act = "";
+  if(p.stage==="仲間を集める"){
+    const ok = seatsFull(p) && p.tries.length>0;
+    act = `${p.why?`<p class="small">${esc(p.why)}</p>`:""}${seatsBox(p)}
+      <div class="counts"><span>面白い <b class="num">${p.likes.length}</b></span><span>うちで試したい <b class="num">${p.tries.length}</b>社${p.tries.length?`（${p.tries.map(esc).join("、")}）`:""}</span></div>
+      ${p.hands.length?`<div class="olist"><b class="small">手を挙げた人</b>${p.hands.map((h,i)=>`<div class="orow"><span>${D(h.d).name}（${D(h.d).former}）→ <b>${seatName(h.seat)}</b></span>
+        <span class="actions"><button class="btn sm" data-act="takehand" data-id="${p.id}" data-i="${i}">受ける</button><button class="btn plain sm" data-act="drophand" data-id="${p.id}" data-i="${i}">見送る</button></span></div>`).join("")}</div>`:`<p class="small muted">まだ手を挙げた人はいません。</p>`}
+      <div class="actions"><button class="btn" data-act="startorders" data-id="${p.id}" ${ok?"":"disabled"}>申し込みの受付を始める</button>${ok?"":`<span class="small muted">${seatsFull(p)?"":"3つの役割がそろい、"}${p.tries.length?"":"「うちで試したい」が1社以上になると"}押せます</span>`}</div>`;
+  } else if(p.stage==="申し込みを集める"){
+    const ok = p.orders.length>=p.target;
+    act = `${seatsBox(p)}${meter(p)}
+      <div class="olist">${p.orders.map(o=>`<div class="orow"><span>${esc(o.client)}</span><span class="small muted">${o.date||""} 申込</span></div>`).join("")}</div>
+      <div class="actions"><button class="btn" data-act="go" data-id="${p.id}" ${ok?"":"disabled"}>成立。作り始める</button>${ok?"":`<span class="small muted">目標まであと${p.target-p.orders.length}社</span>`}</div>`;
+  } else if(p.stage==="つくって確かめる"){
+    const checked = p.updates.some(u=>u.seat==="check");
+    act = `${seatsBox(p)}${updatesBox(p)}
+      <div class="actions"><button class="btn" data-act="deliver" data-id="${p.id}" ${checked?"":"disabled"}>確かめが済んだ。導入に進む</button>${checked?"":`<span class="small muted">「確かめて良くする」役の報告が届くと押せます</span>`}</div>`;
+  } else {
+    act = `${seatsBox(p)}<div class="olist"><b class="small">導入した会社</b>${p.orders.map((o,i)=>`<div class="orow"><span>${esc(o.client)} ${ochip(o.st)} <span class="num">${yen(o.price)}</span>${o.tpl?`<span class="tag">型から</span>`:""}</span>
+      <span>${o.st==="導入待ち"?`<button class="btn sm" data-act="install" data-id="${p.id}" data-i="${i}">導入した</button>`
+        :o.st==="請求済"?`<button class="btn ghost sm" data-act="paid" data-id="${p.id}" data-i="${i}">入金を確認した</button>`
+        :o.st==="検収待ち"?`<span class="small muted">企業の検収待ち</span>`:""}</span></div>`).join("")}</div>
+      ${p.stage==="導入・検収"?`<div class="actions"><button class="btn" data-act="template" data-id="${p.id}" ${allAccepted(p)?"":"disabled"}>型にする（次の会社は安く速く）</button>${allAccepted(p)?"":`<span class="small muted">全社の検収が済むと押せます</span>`}</div>`
+      :`<p class="small muted">型の価格 ${yen(p.tplPrice)}・約${p.tplWeeks}週間（最初の導入 ${yen(p.price)}・約${p.weeks}週間）</p>`}`;
+  }
+  return `<article class="pcard ${p.stage==="仲間を集める"&&p.hands.length?"attn":""}">${head(p)}
+    <div class="meta"><span>担当 <b>${p.coord}</b></span>${p.price?`<span>金額 <b class="num">${yen(p.price)}</b>${p.kind==="drifter"?` × 目標 <b class="num">${p.target}</b>社`:""}</span>`:""}<span class="num">${p.created} 受付</span></div>
+    ${act}</article>`;
+}
+
+/* ---------- 請求書・配分明細 ---------- */
+function billRows(pred){
+  const rows = [];
+  S.plans.forEach(p=>p.orders.forEach(o=>{ if(pred(o)) rows.push({kind:o.tpl?"型":"計画",id:p.id,client:o.client,label:`${p.ifText} 導入`,price:o.price,ops:o.price*SHARE.ops/100,accepted:o.accepted}); }));
+  S.jobs.forEach(j=>{ if(pred(j)) rows.push({kind:"単発",id:j.id,client:j.client,label:`${j.title}（${M(j.menu).name}${M(j.menu).qty?`×${j.qty}`:""}）`,price:j.price,ops:jobOps(j),accepted:j.accepted}); });
+  return rows;
+}
+function payRowsFor(did){
+  const rows = [];
+  S.plans.forEach(p=>SEATS.forEach(s=>{ if(p.seats[s.k].includes(did)) p.orders.forEach(o=>{ if(o.month===MONTH) rows.push({label:p.ifText,client:o.client,role:`${seatName(s.k)} ${SHARE[s.k]}%${p.seats[s.k].length>1?`÷${p.seats[s.k].length}`:""}`,price:o.price,amt:o.price*cut(p,s.k)}); }); }));
+  S.jobs.forEach(j=>{ if(j.month===MONTH && jobCut(j,did)>0) rows.push({label:`${j.title}（単発）`,client:j.client,role:[j.maker===did?`作る ${JSHARE.make}%`:"",j.checker===did?`確かめる ${JSHARE.check}%`:""].filter(Boolean).join("・"),price:j.price,amt:jobCut(j,did)}); });
+  return rows;
+}
+function showSheet(html){
+  $("#overlay-root").innerHTML = `<div class="overlay" id="ov"><div class="sheet" role="dialog" aria-modal="true">${html}
+    <div class="actions" style="margin-top:18px;justify-content:flex-end"><button class="btn" id="ov-close">閉じる</button></div></div></div>`;
+  $("#ov-close").focus();
+  $("#ov-close").onclick = () => $("#overlay-root").innerHTML = "";
+  $("#ov").onclick = e => { if(e.target.id==="ov") $("#overlay-root").innerHTML = ""; };
+}
+function invoice(client,month){
+  const rows = billRows(x=>x.client===client && x.month===month);
+  const sub = rows.reduce((a,r)=>a+r.price,0), tax = Math.floor(sub*TAX);
+  const [y,m] = month.split("-");
+  showSheet(`<h3>請求書</h3>
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <div><b style="font-size:16px">${esc(client)} 御中</b><div style="margin-top:8px">下記のとおりご請求申し上げます。</div></div>
+      <div style="font-size:13px;text-align:right">${y}年${+m}月末締め<br>請求番号 DR-${y}${m}-${(rows[0]?.id||"00").replace(/\D/g,"")}<br><b>ドリフターズ運営事務局</b><br>登録番号 T0000000000000（例）</div>
+    </div>
+    <p class="tot" style="margin:16px 0">ご請求金額 <span class="num">${yen(sub+tax)}</span>（税込）</p>
+    <table><thead><tr><th>内容</th><th class="r">金額</th></tr></thead><tbody>
+      ${rows.map(r=>`<tr><td>${esc(r.label)}${r.kind==="型"?"（型から）":""}（${r.id}・${r.accepted}検収）</td><td class="r num">${yen(r.price)}</td></tr>`).join("")}
+      <tr><td>小計（10%対象）</td><td class="r num">${yen(sub)}</td></tr>
+      <tr><td>消費税（10%）</td><td class="r num">${yen(tax)}</td></tr>
+      <tr><td><b>合計</b></td><td class="r num"><b>${yen(sub+tax)}</b></td></tr></tbody></table>
+    <p style="margin-top:14px;font-size:13px">お支払期日：${y}年${+m+1}月末日　振込先：○○銀行 ○○支店 普通 0000000（例）</p>`);
+}
+function payslip(did){
+  const d = D(did), rows = payRowsFor(did);
+  const sub = rows.reduce((a,r)=>a+r.amt,0), tax = Math.floor(sub*TAX);
+  showSheet(`<h3>配分明細</h3>
+    <div><b style="font-size:16px">${d.name} 様</b><div style="margin-top:6px;font-size:13px">2026年9月検収分 ・ 支払予定日 2026年11月10日（企業の入金確認後・仮）</div></div>
+    <table style="margin-top:14px"><thead><tr><th>計画・依頼</th><th>役割</th><th class="r">金額</th><th class="r">お支払額</th></tr></thead><tbody>
+      ${rows.map(r=>`<tr><td>${esc(r.label)}<br><span style="color:#666;font-size:12px">${esc(r.client)}</span></td><td>${r.role}</td><td class="r num">${yen(r.price)}</td><td class="r num">${yen(r.amt)}</td></tr>`).join("")}
+      <tr><td colspan="3">小計</td><td class="r num">${yen(sub)}</td></tr>
+      <tr><td colspan="3">消費税（10%）</td><td class="r num">${yen(tax)}</td></tr>
+      <tr><td colspan="3"><b>お支払額 合計</b></td><td class="r num"><b>${yen(sub+tax)}</b></td></tr></tbody></table>
+    <p style="margin-top:12px;font-size:12px;color:#666">配分は計画を始める前に公開したものです。源泉徴収が必要な仕事かどうかは案件ごとに確認します（試作では計算していません）。</p>`);
+}
+
+/* ---------- 描画とイベント ---------- */
+function render(){
+  document.querySelectorAll(".roles button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.role===role));
+  $("#view").innerHTML = role==="client"?viewClient():role==="drifter"?viewDrifter():viewOps();
+}
+document.querySelector(".roles").addEventListener("click",e=>{
+  const b = e.target.closest("button"); if(!b) return;
+  role = b.dataset.role; try{ localStorage.setItem("drifters-role",role) }catch(err){}
+  render(); window.scrollTo(0,0);
+});
+$("#reset").onclick = () => { S = seed(); pendingDraft = null; pendingJob = null; save(); render(); toast("例の状態に戻しました"); };
+
+$("#view").addEventListener("click",e=>{
+  const t = e.target.closest("button"); if(!t || t.disabled) return;
+  if(t.dataset.jump){ const el=document.getElementById(t.dataset.jump==="ask"?"ask-sec":t.dataset.jump); el&&el.scrollIntoView({behavior:"smooth"}); if(t.dataset.jump==="ask") setTimeout(()=>$("#f-if")?.focus({preventScroll:true}),300); return; }
+  if(t.dataset.inv){ const [c,m]=t.dataset.inv.split("|"); invoice(c,m); return; }
+  if(t.dataset.pay){ payslip(t.dataset.pay); return; }
+  const job = J(t.dataset.id);
+  switch(t.dataset.act){
+    case "jobpick": pendingJob = t.dataset.k; render(); $("#job-form")?.scrollIntoView({behavior:"smooth",block:"center"}); return;
+    case "jobcancel": pendingJob = null; render(); return;
+    case "jobaccept": job.st="検収済"; job.accepted=TODAY; job.log.push({by:"client",t:"検収",text:"受け取りました。"}); done("検収しました。月末の締めで請求書をお送りします"); return;
+    case "jobok": job.st="納品済"; job.log.push({by:job.checker,t:"確認OK",text:"仕上がりを確かめ、企業に納品しました。"}); done("企業に納品しました。検収を待ちます"); return;
+    case "jobpaid": job.st="入金済"; done("入金済みにしました"); return;
+    case "askai": askAI(P(t.dataset.id), AI_PRESETS[+t.dataset.q]); return;
+    case "stopai": AI[t.dataset.id]?.ctl?.abort(); return;
+    case "toplan": {
+      const g = t.dataset.g;
+      pendingDraft = {ifText:`${g}を毎回外に頼んでいるけど、社内で作れたら早いし安いのに…`, dept:""};
+      render(); $("#ask-sec").scrollIntoView({behavior:"smooth"}); toast("つぶやきの欄に入れました。書き足して出してください"); return; }
+  }
+  const p = P(t.dataset.id), i = +t.dataset.i;
+  switch(t.dataset.act){
+    case "like": { const k=p.likes.indexOf(MYCLIENT); k<0?p.likes.push(MYCLIENT):p.likes.splice(k,1); done(k<0?"「面白い」と伝えました":"取り消しました"); break; }
+    case "try": { const k=p.tries.indexOf(MYCLIENT);
+      if(k<0){ p.tries.push(MYCLIENT); if(!p.likes.includes(MYCLIENT)) p.likes.push(MYCLIENT); done("「うちで試したい」と伝えました。担当者から話を聞きにうかがいます"); }
+      else { p.tries.splice(k,1); done("取り消しました"); } break; }
+    case "pick": {
+      const r = p.proposals[i];
+      Object.assign(p,{chosen:i,price:r.price,weeks:r.weeks,stage:"つくって確かめる",seats:{make:[r.by],check:[r.check],spread:[r.spread]}});
+      p.orders = [{client:p.origin,st:"導入待ち",price:r.price,date:TODAY}];
+      done(`${D(r.by).name}さんのチームに決めました。作り始めます`); break; }
+    case "rec": p.rec = p.rec===i ? null : i; done(p.rec===i?"おすすめを付けました":"おすすめを外しました"); break;
+    case "nudge": toast("合いそうなドリフターに知らせました（試作では送られません）"); break;
+    case "join": p.orders.push({client:MYCLIENT,st:"申込",price:p.price,date:TODAY}); done("申し込みました。目標社数に届いたら作り始めます"); break;
+    case "tpl":  p.orders.push({client:MYCLIENT,st:"導入待ち",price:p.tplPrice,tpl:true,date:TODAY}); done("型での導入を申し込みました。担当者から日程の連絡をします"); break;
+    case "accept": { const o=p.orders.find(o=>o.client===MYCLIENT); o.st="検収済"; o.accepted=TODAY; done("検収しました。月末の締めで請求書をお送りします"); break; }
+    case "hand": p.hands.push({d:MYDRIFTER,seat:t.dataset.seat}); done(`「${seatName(t.dataset.seat)}」に手を挙げました。担当者が決めます`); break;
+    case "takehand": {
+      const h = p.hands[i], other = h.seat==="make"?"check":h.seat==="check"?"make":null;
+      if(other && p.seats[other].includes(h.d)){ toast("つくる人と確かめて良くする人は、同じ人にできません"); return; }
+      p.seats[h.seat].push(h.d); p.hands = p.hands.filter((x,k)=>k!==i && !(x.seat===h.seat)); done(`${D(h.d).name}さんを「${seatName(h.seat)}」に受けました`); break; }
+    case "drophand": p.hands.splice(i,1); done("見送りました"); break;
+    case "startorders":
+      p.tries.forEach(c=>{ if(!p.orders.some(o=>o.client===c)) p.orders.push({client:c,st:"申込",price:p.price,date:TODAY}); });
+      if(!p.deadline) p.deadline = addDays(TODAY,30);
+      p.stage="申し込みを集める"; done("申し込みの受付を始めました。「うちで試したい」の会社を申し込みに入れました（本番では各社の確認をとります）"); break;
+    case "go": p.stage="つくって確かめる"; p.orders.forEach(o=>o.st="導入待ち"); done("成立しました。ドリフターが作り始めます"); break;
+    case "deliver": p.stage="導入・検収"; p.orders.forEach(o=>{ if(o.st==="導入待ち") o.st="検収待ち"; }); done("導入に進みました。検収を待ちます"); break;
+    case "install": p.orders[i].st="検収待ち"; done("導入済みにしました。企業の検収を待ちます"); break;
+    case "paid": p.orders[i].st="入金済"; done("入金済みにしました"); break;
+    case "template":
+      p.stage="型になった"; p.tplPrice=Math.max(10000,Math.round(p.price*0.6/10000)*10000); p.tplWeeks=Math.max(1,Math.ceil(p.weeks/2));
+      done(`型になりました。次の会社は ${yen(p.tplPrice)}・約${p.tplWeeks}週間で導入できます`); break;
+    case "close":
+      S.plans.forEach(p=>p.orders.forEach(o=>{ if(o.st==="検収済" && (o.accepted||"").startsWith(MONTH)){ o.st="請求済"; o.month=MONTH; } }));
+      S.jobs.forEach(j=>{ if(j.st==="検収済" && (j.accepted||"").startsWith(MONTH)){ j.st="請求済"; j.month=MONTH; } });
+      done("9月分を締めました。請求書と配分明細を作りました"); break;
+  }
+});
+$("#view").addEventListener("submit",e=>{
+  e.preventDefault();
+  const f = e.target;
+  if(f.id==="ask"){
+    const id = "PL-" + String(S.seq++).padStart(2,"0");
+    S.plans.push({id,kind:"client",ifText:$("#f-if").value.trim(),who:"",origin:MYCLIENT,dept:$("#f-dept").value.trim(),coord:"岡田",stage:"提案を募集中",
+      price:0,weeks:0,target:1,deadline:"",created:TODAY,seats:{make:[],check:[],spread:[]},hands:[],updates:[],orders:[],proposals:[],likes:[],tries:[],why:""});
+    pendingDraft = null; done("つぶやきを出しました。ドリフターから提案が届きます"); return;
+  }
+  if(f.dataset.answer){ const [pid,i,k]=f.dataset.answer.split("|"), p=P(pid);
+    p.proposals[+i].asks[+k].a = $(`#qa-${pid}-${i}-${k}`).value.trim(); done("答えました。解像度が上がりました"); return; }
+  if(f.dataset.askai){ const p=P(f.dataset.askai), q=$(`#aiq-${p.id}`).value.trim(); if(q) askAI(p,q); return; }
+  if(f.dataset.propose){ const p=P(f.dataset.propose), id=p.id;
+    p.proposals.push({by:MYDRIFTER,check:$(`#pc-${id}`).value,spread:$(`#ps-${id}`).value,price:+$(`#pa-${id}`).value,weeks:+$(`#pw-${id}`).value,date:TODAY,text:$(`#pp-${id}`).value.trim(),
+      read:$(`#pr-${id}`).value.trim(),asks:$(`#pq-${id}`).value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).map(q=>({q,a:""}))});
+    done("提案を出しました。会社が比べて選びます"); return; }
+  if(f.id==="idea-form"){
+    const id = "PL-" + String(S.seq++).padStart(2,"0"), seat = $("#i-seat").value;
+    const seats = {make:[],check:[],spread:[]}; seats[seat].push(MYDRIFTER);
+    S.plans.push({id,kind:"drifter",by:MYDRIFTER,ifText:$("#i-if").value.trim(),who:$("#i-for").value.trim(),why:$("#i-why").value.trim(),coord:"岡田",stage:"仲間を集める",
+      price:+$("#i-price").value,target:+$("#i-target").value,weeks:3,deadline:"",created:TODAY,seats,hands:[],updates:[],orders:[],proposals:[],likes:[],tries:[],dept:""});
+    done("「もし」を出しました。仲間の募集と、会社の画面への掲載が始まります"); return;
+  }
+  if(f.id==="job-form"){
+    const m = M(pendingJob), qty = m.qty ? Math.max(1,+$("#j-qty").value||1) : 1;
+    S.jobs.push({id:"J-"+String(S.jseq++).padStart(2,"0"),client:MYCLIENT,menu:m.k,qty,price:m.price*qty,title:$("#j-title").value.trim(),detail:$("#j-detail").value.trim(),
+      due:$("#j-due").value,st:"依頼受付",maker:"",checker:"",revisions:0,via:"サイト",created:TODAY,log:[]});
+    pendingJob = null; done("依頼を受け付けました。担当者が作る人と確かめる人を決めます"); return;
+  }
+  if(f.dataset.jobassign){ const j=J(f.dataset.jobassign), mk=$(`#jm-${j.id}`).value, ck=$(`#jc-${j.id}`).value;
+    if(mk===ck){ toast("作る人と確かめる人は、別の人にしてください"); return; }
+    Object.assign(j,{maker:mk,checker:ck,st:"作成中"}); done(`${D(mk).name}さんが作り始めます`); return; }
+  if(f.dataset.jobdeliver){ const j=J(f.dataset.jobdeliver);
+    j.log.push({by:j.maker,t:"納品",text:$(`#jd-${j.id}`).value.trim()}); j.st="確認中"; done(`${checkerName(j.checker)}に確かめてもらいます`); return; }
+  if(f.dataset.jobback){ const j=J(f.dataset.jobback);
+    j.log.push({by:j.checker,t:"作り直し",text:$(`#jb-${j.id}`).value.trim()}); j.st="作成中"; done("作った人に戻しました（企業の修正回数は減りません）"); return; }
+  if(f.dataset.jobrevise){ const j=J(f.dataset.jobrevise);
+    j.log.push({by:"client",t:`修正${j.revisions+1}回目`,text:$(`#rv-${j.id}`).value.trim()}); j.revisions++; j.st="作成中"; done(`修正を頼みました（残り${MAXREV-j.revisions}回）`); return; }
+  if(f.dataset.post){ const p=P(f.dataset.post);
+    const ks = SEATS.filter(s=>p.seats[s.k].includes(MYDRIFTER)).map(s=>s.k);
+    p.updates.push({seat:ks.includes("check")?"check":ks[0],d:MYDRIFTER,date:TODAY,text:$(`#up-${p.id}`).value.trim()});
+    done("投稿しました。担当者と仲間に届きます"); return; }
+});
+$("#view").addEventListener("input",e=>{
+  if(e.target.id==="j-qty" && pendingJob){ const el=$("#j-price"); if(el) el.textContent = yen(M(pendingJob).price*Math.max(1,+e.target.value||1)); }
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("#overlay-root").innerHTML=""; });
+render();
+(async()=>{ try{ sampleFn = (window.claude && window.claude.use) ? await window.claude.use("sample") : null; }catch(e){ sampleFn = null; } render(); })();
+</script>
+
+</body>
+</html>
