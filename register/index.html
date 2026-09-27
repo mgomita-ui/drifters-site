@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>ドリフターズに登録する</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FBFBFA;--line:#E5E5E3;--ink:#1F2933;--ink2:#52606D;--ink3:#8A94A0;--blue:#1E5BCB;--blue-soft:#EAF0FB;--coral:#E85B52;--ok:#12A150;--ok-soft:#EAF8EF}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",Inter,system-ui,sans-serif;font-size:15px;line-height:1.7}
+.band{padding:22px 16px;color:#fff;background:#1F2933}.band h1{margin:0;font-size:19px}.band p{margin:4px 0 0;font-size:13px;opacity:.9}
+.wrap{max-width:448px;margin:0 auto;padding:16px 16px 40px}
+.tabs{display:flex;gap:6px;margin-bottom:14px}.tabs button{flex:1;border:1px solid var(--line);background:#fff;border-radius:8px;padding:10px 6px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;color:var(--ink2)}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sec{display:none}.sec.on{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 18px 16px;margin-bottom:14px}
+.card h2{margin:0 0 3px;font-size:15px}.card .sub{font-size:13px;color:var(--ink3);margin:0 0 12px}
+label.f{display:block;margin:12px 0 4px;font-size:13.5px;font-weight:500}label.f i{color:var(--coral);font-style:normal;margin-left:3px}
+.hint{font-size:12px;color:var(--ink3);margin:2px 0 0}
+input[type=text],input[type=url],input[type=email],input[type=tel],select,textarea{width:100%;border:1px solid #CFD4DA;border-radius:6px;padding:11px 12px;font:inherit;font-size:16px;background:#fff}
+textarea{min-height:88px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{border:1px solid #CFD4DA;background:#fff;border-radius:999px;padding:7px 13px;font-size:13.5px;cursor:pointer;font-family:inherit;color:var(--ink2)}
+.chip.on{background:var(--blue-soft);border-color:var(--blue);color:var(--blue);font-weight:700}
+.radio{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.radio label{display:flex;gap:10px;align-items:flex-start;border:1px solid #CFD4DA;border-radius:8px;padding:10px 12px;cursor:pointer;background:#fff}
+.radio label b{display:block;font-size:14px}.radio label span{font-size:12.5px;color:var(--ink3)}.radio input{margin-top:5px}
+.rule{border:1.5px solid var(--ink);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:10px}.rule b{display:block}
+.submit{display:block;width:100%;border:0;border-radius:4px;padding:14px;font:inherit;font-size:16px;font-weight:700;color:#fff;background:var(--blue);cursor:pointer;margin-top:6px}
+.submit:disabled{opacity:.6;cursor:default}
+.tiny{font-size:11.5px;color:var(--ink3);margin:10px 0 0;text-align:center}
+.err{display:none;background:#FDEEEC;color:#C8443C;border:1px solid #F3B9B4;border-radius:8px;padding:10px 12px;font-size:13.5px;margin-top:10px}.err.on{display:block}
+.done{display:none;text-align:center;padding:30px 0}.done.on{display:block}
+.done .mark{width:56px;height:56px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center;font-size:28px;margin:0 auto 10px}
+.done h2{margin:0 0 6px}.done p{color:var(--ink2);font-size:14px}
+.pill{display:inline-block;background:var(--blue-soft);color:var(--blue);border-radius:999px;font-size:11.5px;font-weight:700;padding:2px 10px;margin-left:6px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+a{color:var(--blue)}
+</style></head><body>
+<div class="band"><h1>ドリフターズに登録する</h1><p>会社は1行でつぶやくだけ。ドリフターは事務局が実物を見て選びます。</p></div>
+<div class="wrap">
+  <div class="tabs"><button type="button" class="on" data-t="co">会社として登録</button><button type="button" data-t="dr">ドリフターとして応募</button></div>
+
+  <form class="sec on" id="t-co" data-kind="company" novalidate>
+    <div class="hp"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+    <div class="card"><h2>会社の情報</h2>
+      <label class="f">会社名<i>*</i></label><input type="text" name="company" required placeholder="株式会社◯◯">
+      <label class="f">事業内容</label><textarea name="business" placeholder="例：介護施設を3か所運営。事務の手作業が多い"></textarea>
+      <label class="f">従業員数</label><select name="size"><option value="">選んでください</option><option>1〜5名</option><option>6〜20名</option><option>21〜50名</option><option>51〜100名</option><option>101名以上</option></select>
+      <label class="f">ふだん使っている連絡の道具</label>
+      <div class="chips" data-name="tools"><button type="button" class="chip">LINE</button><button type="button" class="chip">チャットワーク</button><button type="button" class="chip">メール</button><button type="button" class="chip">Slack</button><button type="button" class="chip">LINE WORKS</button><button type="button" class="chip">Teams</button></div>
+      <p class="hint">計画ごとに「主の場」を1つ決めます。担当者がその道具で連絡します。</p></div>
+    <div class="card"><h2>担当者の連絡先</h2><p class="sub">メール・携帯・LINEのいずれか1つ以上をご入力ください</p>
+      <label class="f">お名前<i>*</i></label><input type="text" name="person" required>
+      <label class="f">役職・部署</label><input type="text" name="title">
+      <label class="f">メールアドレス</label><input type="email" name="email">
+      <label class="f">携帯番号</label><input type="tel" name="mobile">
+      <label class="f">LINE ID</label><input type="text" name="lineId"></div>
+    <div class="card"><h2>最初のつぶやき<span class="pill">これが依頼になります</span></h2><p class="sub">手順や値段は気にせず、困っていることを1行で。ドリフターが読み取って提案します。</p>
+      <label class="f">つぶやき<i>*</i></label><textarea name="tweet" required placeholder="例：請求書の入力に毎月20時間かかっている"></textarea>
+      <label class="f">部署（任意）</label><input type="text" name="dept" placeholder="例：経理">
+      <label class="f">ご希望</label>
+      <div class="radio">
+        <label><input type="radio" name="wish" value="wait" checked><div><b>提案を待つ</b><span>ドリフターから提案と質問が届きます</span></div></label>
+        <label><input type="radio" name="wish" value="single"><div><b>単発の依頼</b><span>画像・ページ・スライド・資料など、定価のメニューから</span></div></label>
+        <label><input type="radio" name="wish" value="talk"><div><b>まず話を聞きたい</b><span>担当者から連絡します</span></div></label>
+      </div></div>
+    <div class="card"><h2>ご紹介者（任意）</h2><label class="f">社名</label><input type="text" name="refCompany"><label class="f">氏名</label><input type="text" name="refName"></div>
+    <div class="rule"><b>お金のこと</b>提案の金額を見てから発注できます。支払いは検収のあと、月末締め・翌月末払い。運営がお金を預かることはありません。</div>
+    <div class="err"></div>
+    <button class="submit" type="submit">送信する</button>
+    <p class="tiny">※ご登録の連絡先へ、担当者からご連絡します。配信停止はいつでも可能です。</p>
+    <div class="done"><div class="mark">✓</div><h2>受け付けました</h2><p>担当者が確認して、2営業日以内にご連絡します。つぶやきへの提案は、届きしだいお知らせします。</p></div>
+  </form>
+
+  <form class="sec" id="t-dr" data-kind="drifter" novalidate>
+    <div class="hp"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+    <div class="card"><h2>ドリフターとは</h2><p class="sub" style="margin:0">AIを使って自分のプロダクトを作り、その出来で事務局に選ばれた人。</p>
+      <div class="rule" style="margin-top:10px"><b>選ぶ基準は2つ</b>① AIを利用して独自プロダクトを作っている　② そのプロダクトのクオリティが一定以上高い<br><span style="color:var(--ink3);font-size:12px">事務局が実物を触って見ます。作った本人以外が使っているか／本人がいなくても動くか／使う前と後で何が変わったか。</span></div></div>
+    <div class="card"><h2>あなたのこと</h2>
+      <label class="f">呼び名<i>*</i></label><input type="text" name="nickname" required placeholder="計画のページに出る名前。本名でなくてかまいません">
+      <label class="f">連絡先（LINE ID かメール）<i>*</i></label><input type="text" name="contact" required>
+      <label class="f">これまでの現場（任意）</label><input type="text" name="background" placeholder="例：介護施設の事務 8年／飲食店の店長 5年">
+      <label class="f">手伝えそうな役割</label>
+      <div class="chips" data-name="roles"><button type="button" class="chip on">つくる</button><button type="button" class="chip">確かめて良くする</button><button type="button" class="chip">ひろめる</button></div></div>
+    <div class="card"><h2>作ったプロダクト<span class="pill">審査に使います</span></h2><p class="sub">実物が見られるものを1つ以上。URL、アプリ、動画、どれでも。</p>
+      <label class="f">プロダクトの名前<i>*</i></label><input type="text" name="product" required>
+      <label class="f">見られる場所（URL）<i>*</i></label><input type="url" name="url" required placeholder="https://">
+      <label class="f">何が変わったか<i>*</i></label><textarea name="change" required placeholder="例：請求書の入力が月20時間→2時間。自分以外に3人が毎日使っている"></textarea>
+      <label class="f">使っているAI・道具</label>
+      <div class="chips" data-name="tools"><button type="button" class="chip">Claude</button><button type="button" class="chip">ChatGPT</button><button type="button" class="chip">Gemini</button><button type="button" class="chip">画像生成</button><button type="button" class="chip">ノーコード</button><button type="button" class="chip">自分でコード</button></div>
+      <label class="f">2つ目以降（任意）</label><textarea name="more" placeholder="名前とURLを1行ずつ"></textarea></div>
+    <div class="card"><h2>きまりの確認</h2>
+      <div class="radio">
+        <label><input type="checkbox" name="rules" value="別の人が確かめる"><div><b>作ったものは、別の人が確かめる</b><span>自分で作って自分で検収しない</span></div></label>
+        <label><input type="checkbox" name="rules" value="決めつけずに質問する"><div><b>分からないことは決めつけずに質問する</b></div></label>
+        <label><input type="checkbox" name="rules" value="外で直接受けない"><div><b>ドリフターズの外で直接受けない</b><span>ここで出会った会社の仕事は、ここで受ける</span></div></label>
+      </div></div>
+    <div class="card"><h2>ご紹介者（任意）</h2><label class="f">呼び名</label><input type="text" name="refName"></div>
+    <div class="err"></div>
+    <button class="submit" type="submit">応募する</button>
+    <p class="tiny">事務局が実物を見て、1週間以内にご連絡します。</p>
+    <div class="done"><div class="mark">✓</div><h2>応募を受け付けました</h2><p>事務局がプロダクトを触って確かめます。1週間以内に、選考の結果と次の一歩をお知らせします。</p></div>
+  </form>
+  <p class="tiny"><a href="../">ドリフターズのトップへ</a></p>
+</div>
+<script>
+var INTAKE = "https://drifters-intake.m-gomita.workers.dev/register";
+document.querySelectorAll(".tabs button").forEach(function (b) { b.onclick = function () {
+  document.querySelectorAll(".tabs button").forEach(function (x) { x.classList.remove("on"); }); b.classList.add("on");
+  document.querySelectorAll(".sec").forEach(function (s) { s.classList.toggle("on", s.id === "t-" + b.dataset.t); }); }; });
+document.querySelectorAll(".chip").forEach(function (c) { c.onclick = function () { c.classList.toggle("on"); }; });
+function collect(form) {
+  var o = { kind: form.dataset.kind };
+  new FormData(form).forEach(function (v, k) { if (k === "rules") { (o.rules = o.rules || []).push(v); } else { o[k] = v; } });
+  form.querySelectorAll(".chips").forEach(function (g) { o[g.dataset.name] = Array.prototype.map.call(g.querySelectorAll(".chip.on"), function (c) { return c.textContent; }); });
+  return o;
+}
+document.querySelectorAll("form.sec").forEach(function (form) { form.onsubmit = async function (e) {
+  e.preventDefault();
+  var err = form.querySelector(".err"), btn = form.querySelector(".submit");
+  err.classList.remove("on");
+  var missing = Array.prototype.filter.call(form.querySelectorAll("[required]"), function (i) { return !i.value.trim(); });
+  if (missing.length) { err.textContent = "必須の項目が空です：" + missing.map(function (i) { return i.closest(".card").querySelector('label.f').textContent.replace("*", ""); }).join("、"); err.classList.add("on"); missing[0].focus(); return; }
+  btn.disabled = true; btn.textContent = "送信中…";
+  try {
+    var r = await fetch(INTAKE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(collect(form)) });
+    var j = await r.json().catch(function () { return {}; });
+    if (!r.ok || j.error) { err.textContent = j.error || "送れませんでした。時間をおいてお試しください。"; err.classList.add("on"); return; }
+    form.querySelectorAll(".card, .rule, .submit, .tiny").forEach(function (x) { x.style.display = "none"; });
+    form.querySelector(".done").classList.add("on"); window.scrollTo(0, 0);
+  } catch (_) { err.textContent = "通信できませんでした。電波を確かめて、もう一度お試しください。"; err.classList.add("on"); }
+  finally { btn.disabled = false; btn.textContent = form.dataset.kind === "drifter" ? "応募する" : "送信する"; }
+}; });
+</script>
+</body></html>
